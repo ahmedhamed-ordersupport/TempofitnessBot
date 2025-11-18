@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fitness Expert Assistant</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Marked.js for Markdown rendering -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <script>
+        // Configure Tailwind to use custom colors and enable dark mode via class
+        tailwind.config = {
+            darkMode: 'class', 
+            theme: {
+                extend: {
+                    colors: {
+                        'tempo-indigo': '#485484', // Primary button color
+                        'tempo-gold': '#c6a777',   // Accent/Highlight color (e.g., status badge)
+                        'tempo-red': '#f46d6d',    // Error color
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Use Inter font */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        
+        /* Custom styles for dark mode compatibility and prose styling */
+        #responseText pre {
+            background-color: #f3f4f6;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            white-space: pre-wrap;
+            overflow-x: auto;
+        }
+        .dark #responseText pre {
+            background-color: #374151; /* Tailwind gray-700 */
+        }
+        #responseText ul {
+            list-style-position: inside;
+            list-style-type: disc;
+            padding-left: 1.5rem;
+        }
+         #responseText ol {
+            list-style-position: inside;
+            list-style-type: decimal;
+            padding-left: 1.5rem;
+        }
+        #responseText h3 {
+            font-weight: 700;
+            font-size: 1.125rem;
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+            color: #1f2937;
+        }
+        .dark #responseText h3 {
+             color: #ffffff;
+        }
+        #responseText strong {
+            color: #111827;
+            font-weight: 700;
+        }
+        .dark #responseText strong {
+             color: #ffffff;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 min-h-screen flex items-center justify-center p-4 transition-colors duration-300">
+
+    <div class="bg-white dark:bg-gray-800 w-full max-w-6xl rounded-xl shadow-lg flex flex-col md:flex-row overflow-hidden h-[90vh] transition-colors duration-300">
+        
+        <!-- Left Panel: Inputs -->
+        <div class="w-full md:w-1/3 bg-gray-50 dark:bg-gray-700 p-6 border-r border-gray-200 dark:border-gray-700 flex flex-col overflow-y-auto transition-colors duration-300">
+            <div class="mb-6 flex flex-col">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-2">
+                        <!-- Tempo Logo Added Here -->
+                        <img src="https://tempo.fit/_next/image?url=https%3A%2F%2Fwww.datocms-assets.com%2F135987%2F1758652384-image-5-photoroom-2.jpeg&w=1920&q=80" alt="Tempo Logo" class="h-6 w-auto">
+                        <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Tempo Fitness Ops</h1>
+                    </div>
+                    <!-- Theme Toggle Button -->
+                    <button id="theme-toggle" class="p-2 rounded-full text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors duration-200">
+                        <!-- Sun Icon (Light Mode) -->
+                        <svg id="sun-icon" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                        </svg>
+                        <!-- Moon Icon (Dark Mode) -->
+                        <svg id="moon-icon" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                        </svg>
+                    </button>
+                </div>
+                <p class="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider font-semibold mt-1">Expert Team Assistant</p>
+            </div>
+
+            <div class="space-y-4 flex-grow">
+                <div>
+                    <label for="goals" class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase mb-1">Customer Goals</label>
+                    <textarea id="goals" rows="3" class="w-full p-3 text-sm border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:ring-2 focus:ring-tempo-indigo focus:border-tempo-indigo dark:bg-gray-600 dark:text-white dark:placeholder-gray-400" placeholder="e.g., 'Build glutes but not quads', 'Run a half marathon', 'Lose 5lbs'"></textarea>
+                </div>
+                
+                <div>
+                    <label for="preferences" class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase mb-1">Lifestyle / Prefs</label>
+                    <textarea id="preferences" rows="3" class="w-full p-3 text-sm border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:ring-2 focus:ring-tempo-indigo focus:border-tempo-indigo dark:bg-gray-600 dark:text-white dark:placeholder-gray-400" placeholder="e.g., 'Has dumbbells only', '30 mins/day', 'Hates cardio'"></textarea>
+                </div>
+
+                <div>
+                    <label for="symptoms" class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase mb-1">Symptoms / Injuries</label>
+                    <textarea id="symptoms" rows="3" class="w-full p-3 text-sm border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:ring-2 focus:ring-tempo-indigo focus:border-tempo-indigo dark:bg-gray-600 dark:text-white dark:placeholder-gray-400" placeholder="e.g., 'Knee pain on lunges', 'Lower back stiffness', 'Diastasis Recti'"></textarea>
+                </div>
+            </div>
+
+            <div class="mt-6">
+                <button id="generate-btn" class="w-full bg-tempo-indigo text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:bg-[#344171] focus:outline-none focus:ring-2 focus:ring-tempo-indigo focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition duration-200 flex justify-center items-center">
+                    <span id="btn-text">Generate Recommendation</span>
+                    <span id="loading-spinner" class="hidden ml-2" role="status">
+                        <svg aria-hidden="true" class="w-4 h-4 text-white animate-spin fill-tempo-gold" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67228 50 9.67228C27.4013 9.67228 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
+                            <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.72328 37.806 4.11358 38.4501 6.48543C39.0943 8.85727 41.5656 10.2257 43.9872 9.71881C48.2166 8.9731 52.5413 8.82007 56.7698 9.58434C61.8841 10.3204 66.8611 11.9304 71.5218 14.28C76.1825 16.6296 80.4573 19.7046 84.115 23.4111C87.7727 27.1177 90.7383 31.4251 92.8391 36.142C93.414 37.6014 93.9676 39.0409Z" fill="currentColor"/>
+                        </svg>
+                    </span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Right Panel: Output -->
+        <div class="w-full md:w-2/3 p-6 sm:p-8 overflow-y-auto bg-white dark:bg-gray-800 relative transition-colors duration-300">
+            <!-- Welcome State -->
+            <div id="welcome-state" class="h-full flex flex-col items-center justify-center text-center text-gray-400 space-y-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                <div class="max-w-md">
+                    <p class="font-medium text-gray-600 dark:text-gray-300">Ready to Assist</p>
+                    <p class="text-sm mt-2 text-gray-500 dark:text-gray-400">Enter client details to generate a precise, SOP-compliant recommendation. I have access to all Tempo programs, training plans, and injury protocols.</p>
+                </div>
+            </div>
+
+            <!-- Result State -->
+            <div id="output-container" class="hidden h-full flex flex-col">
+                <div class="flex justify-between items-start mb-4 border-b border-gray-100 dark:border-gray-700 pb-4 flex-shrink-0">
+                    <div>
+                        <h2 class="text-xl font-bold text-gray-800 dark:text-white">Expert Recommendation</h2>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">Based on Tempo SOPs & Programs</p>
+                    </div>
+                    <span class="bg-tempo-gold/10 text-tempo-gold border border-tempo-gold text-xs font-medium px-2.5 py-0.5 rounded">SOP Verified</span>
+                </div>
+                
+                <!-- Error Message -->
+                <div id="error-message" class="hidden bg-tempo-red/10 border border-tempo-red text-tempo-red px-4 py-3 rounded-lg mb-4 text-sm flex-shrink-0" role="alert">
+                    <strong class="font-bold">Error:</strong> <span id="error-text"></span>
+                </div>
+
+                <div id="responseText" class="prose prose-sm max-w-none text-gray-700 dark:text-gray-300 flex-grow overflow-y-auto pb-10">
+                    <!-- AI Content Goes Here -->
+                </div>
+
+                <!-- Sources/Programs Used -->
+                <div id="sources-container" class="mt-4 pt-4 border-t border-gray-100 dark:border-gray-700 hidden flex-shrink-0">
+                    <h4 class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2">Grounding & References</h4>
+                    <ul id="sources-list" class="space-y-1 text-xs text-gray-500 dark:text-gray-400">
+                        <!-- Sources injected here -->
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        const generateBtn = document.getElementById('generate-btn');
+        const btnText = document.getElementById('btn-text');
+        const loadingSpinner = document.getElementById('loading-spinner');
+        const welcomeState = document.getElementById('welcome-state');
+        
+        const goalsInput = document.getElementById('goals');
+        const preferencesInput = document.getElementById('preferences');
+        const symptomsInput = document.getElementById('symptoms');
+        
+        const outputContainer = document.getElementById('output-container');
+        const responseText = document.getElementById('responseText');
+        const sourcesContainer = document.getElementById('sources-container');
+        const sourcesList = document.getElementById('sources-list');
+        const errorMessage = document.getElementById('error-message');
+        const errorText = document.getElementById('error-text');
+
+        // --- THEME TOGGLE LOGIC ---
+        const themeToggle = document.getElementById('theme-toggle');
+        const sunIcon = document.getElementById('sun-icon');
+        const moonIcon = document.getElementById('moon-icon');
+
+        // Check for saved theme preference or default to system preference
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+            moonIcon.classList.remove('hidden');
+        } else {
+            document.documentElement.classList.remove('dark');
+            sunIcon.classList.remove('hidden');
+        }
+
+        function toggleTheme() {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.theme = 'light';
+                moonIcon.classList.add('hidden');
+                sunIcon.classList.remove('hidden');
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.theme = 'dark';
+                sunIcon.classList.add('hidden');
+                moonIcon.classList.remove('hidden');
+            }
+        }
+        themeToggle.addEventListener('click', toggleTheme);
+        // --- END THEME TOGGLE LOGIC ---
+
+
+        // --- KNOWLEDGE BASE ---
+        // Populated with user data
+        const knowledgeBase = {
+            // The SOPs text block injected here
+            sops: `
+# GET STRONG SOP
+
+**How To Recommend Classes for Customers Want to Get Stronger**
+There are two categories of training goals:
+1. Getting strong with minimal muscle gains (Strength without Bulking)
+2. Getting Strong with maximum muscle gains (Strength with Hypertrophy)
+
+**1. Getting Strong with Minimal Muscle Gains**
+- **Strategy:** Low to Moderate Reps (3-6), Higher Weights, Longer Rest (2-3 mins), Lower Volume (3-4 sets).
+- **Diet:** Maintenance calories, sufficient protein.
+- **Programs:** "Upper Body Strength" (Jonathan), "Strength Fundamentals Pt. 1" (Jonathan).
+
+**2. Getting Strong with Maximum Muscle Gains (Hypertrophy)**
+- **Strategy:** Moderate to High Reps (8-12), Moderate Weights, Shorter Rest (60-90s), Higher Volume (4-6 sets), Progressive Overload.
+- **Diet:** Caloric surplus, high protein/carbs.
+- **Programs:** "Strength Fundamentals Pt. 1-5", "4 Week Gain Strength: Shape Shift 1-3", "Sculpt & Shred Remastered".
+
+**Key Q&A for Strength:**
+- **Beginner Strength:** "Bodyweight Foundation" (Melissa), "2 Week Strength for Beginners" (Clarence), "Mini but Mighty" (Jonathan).
+- **Overall Strength:** "Strength Fundamentals Pt. 1", "4 Weeks to a Better Me", "Shape Shift 1".
+- **Upper Body:** "Upper Body Strength" (Jonathan), "Strength Fundamentals Pt. 3".
+- **Lifting Heavier:** "3 Week Gain Strength: Heavy Lifting", "Shape Shift 1".
+- **Squat Strength:** "2 Week Gain Lower Body Strength", "Run Strong", "Shape Shift 1-3".
+- **Core Strength:** "Pilates Principles", "Complete Core", "Powerhouse Abs". Advanced: "HeartCore", "C Squared".
+- **Functional Strength:** "Off-Season Athlete", "Strength and Resilience", "C Squared".
+- **Strength + Fat Loss (Recomp):** "Max Intensity", "Off-Season Athlete", "Shape Shift 2", "Sculpt & Shred Remastered".
+- **Push-up Strength:** "Strength Fundamentals Pt. 3", "Upper Body Strength", "Pilates Principles Pt. 1" (for core).
+
+# IMPROVE DEFINITION SOP
+
+**Balancing Fat Loss and Muscle Gain**
+- **Beginners:** Can often achieve both simultaneously.
+- **Advanced:** Should periodize (focus on one at a time).
+- **Calorie Deficit:** ~500 cal deficit for fat loss.
+- **Training:** Expend 1700+ cal/week. 3-5 HIIT classes or Zone 3-5 cardio.
+
+**Key Q&A for Definition:**
+- **Muscle Definition:** "Sculpt & Shred Remastered", "Boxing Skills & Builds Pt. 1".
+- **Toning:** "Shape Shift 1 & 2", "Sculpt & Shred Remastered".
+- **Lean without Muscle Loss:** "4 Week Strength Foundation", "Shape Shift 1 & 2".
+- **Abs/Core:** "Sculpt & Shred Remastered Pt. 1", "HeartCore", "Boxing Skills & Builds Pt. 3".
+- **Arms/Shoulders:** "4 Week Strength Foundation", "Everyday Strength Pt. 1", "Boxing Skills & Builds".
+- **Legs/Glutes:** "Everyday Strength Pt. 2", "Shape Shift 2".
+- **Minimal Equipment:** "Bodyweight & Bands", "Next Level Vinyasa Yoga Pt. 2".
+- **Definition without Bulk:** "Sculpt & Shred", "Off-Season Athlete".
+- **Cardio for Definition:** "Boxing Skills & Builds Pt. 1", "Metabolic Meltdown".
+
+# LOSE WEIGHT SOP
+
+**Cardiovascular Fitness**
+- **Guidelines:** 3-5 days/week, 20-60 mins.
+- **Zones:** Zone 1 (Warmup), Zone 2-3 (Pace/Stamina), Zone 4-5 (HIIT/Burn).
+- **Target:** Accumulate 60-90 mins/week in Zones 3-5.
+
+**Key Q&A for Weight Loss:**
+- **Quick Weight Loss:** "Metabolic Meltdown" (Beginner), "Max Intensity" (Advanced), "Sculpt & Shred".
+- **Tone + Lose Weight:** "5 Week C Squared", "Sculpt & Shred Remastered", "Shape Shift 2", "2 Week Lose Weight with Kettlebell HIIT".
+- **Fat Loss Target:** "Build and Burn", "Burn and Shred", "MetCon Challenge", "Barre Fight".
+- **New to Fitness:** "Metabolic Meltdown", "Bodyweight Foundation".
+- **Cardio + Weight Loss:** "Off-Season Athlete", "Prep for Your 5K", "Boxing Camp".
+- **Without Heavy Weights:** "Max Intensity", "Barre Fight", "Bodyweight & Bands".
+- **Minimal Time:** "Create a Habit in 10m", "Commit to Your Health", "Max Intensity".
+- **Plateaus:** "Metabolic Meltdown", "Functional Fitness" (use variety).
+
+# GET HEALTHIER SOP
+
+**General Health Goals**
+- **Focus:** Improve cardiovascular fitness (Zones 3-5) and Body Composition (Muscle Mass).
+- **Strength vs HIIT:** Strength for long-term metabolism (BMR), HIIT for immediate calorie burn.
+
+**Key Q&A for Health:**
+- **Overall Health:** "10-Day Yoga Reset", "2 Weeks to a Healthier Me".
+- **Reduce Stress:** "Meditation Challenge: Fully Alive", "10 Day Yoga Reset".
+- **Flexibility/Mobility:** "5 Day Flexibility", "Improved Mobility Pt. 1 & 2", "Stretch, Meditate, & Recover".
+- **Recovery:** "Stretch, Meditate, & Recover", "10 Day Yoga Reset".
+- **Habit Building:** "Create a Habit in 10m a Day", "2 Weeks to a Healthier Me".
+
+# INJURIES SOP & MODIFICATIONS
+
+**Golden Rule:** NEVER diagnose. Always recommend consulting a medical professional.
+- **Lower Back Injury (Cleared):** Ask if they saw a PT. Suggest "Intro" classes, "Range of Motion" (Clarence).
+- **Knee/Hip Issues:** Consult doctor first. Suggest "Intro" classes, "Upper Body" focus, "Core". Avoid lunges/squats if painful.
+- **Hip Flexor Strain:** Recovery, gentle stretching, walking.
+- **Wrist Injuries:** "Build & Burn", "Strength & Power" (less wrist heavy). Use modification filters.
+- **Ankle Injury:** "Getting Stronger" plans (less impact). Swap HIIT for rowing/biking.
+- **Diastasis Recti:** No specific program. Use "Safe for Pregnancy" filter modifications. Consult PT.
+- **Pregnancy:** "Prenatal Strength" program.
+
+# CALORIE & HEART RATE FAQ
+
+- **Calculation:** Uses heart rate, weight, age, gender.
+- **Accuracy:** HRM (Heart Rate Monitor) is best (within 1-2 beats/min of ECG). Wear on upper arm/forearm, snug, away from tattoos.
+- **Wearable Differences:** Algorithms vary. Tempo uses active work + HR.
+- **Zones:** Zone 1 (Easy), Zone 5 (Max). 60-90 mins/week in Zones 3-5 recommended for weight loss.
+
+# WORKOUT TYPES GLOSSARY
+
+- **Shred (HIIT):** Bootcamp style, short rest (<40s), medium weight. (e.g., "400 Rep Challenge").
+- **Build (Strength/Hypertrophy):** Moderate rest (40-60s), heavy weight (80-92%), 8-12 reps. (e.g., "Lower Body Build").
+- **Heavy (Strength):** Long rest (60s+), max weight (92%+), 6-8 reps. (e.g., "Upper Body Heavy 6x4").
+- **Sweat (Cardio):** Interval, bodyweight, minimal rest.
+- **Mobility:** Recovery, ROM improvement.
+- **Burn:** Pilates/Barre style, high rep, low impact.
+
+# GENERAL FITNESS INQUIRIES
+
+- **Running/Marathon Prep:** "Run Strong" (Melissa).
+- **Wedding Prep (Back Strength):** "The Art of Back Development".
+- **Zero Impact:** Core and Upper Body classes.
+- **No Equipment:** "Travel Friendly" collection, "Metabolic Breakdown", "Bodyweight & Bands".
+- **Post-Weight Loss Next Step:** "Sculpt & Shred", "4-Week Training Plan".
+- **Older Adults (66+):** Yes, exercises can be modifiable. Use filters.
+- **Kids (<13):** Yes, with supervision.
+
+# ENDURANCE & FLEXIBILITY SOP
+
+**Endurance:**
+- Programs: "4 Week Endurance Build", "Metabolic Meltdown", "Boxing Skills".
+- Running Stamina: "4 Week Endurance Build", "Cardio Core".
+- Cycling: "Cycling Strength and Power".
+
+**Flexibility:**
+- General: "Yoga Reset", "Functional Fitness".
+- Hips/Hamstrings: "Yoga Reset", "Stretch, Meditate & Recover".
+- **Shoulders:** "Yoga Reset", "Functional Fitness".
+`,
+            trainingPlans: [
+                { name: "The Way to Stronger Biceps", goal: "Get stronger", muscleGroup: "Upper Body" },
+                { name: "The Path to a Stronger Back", goal: "Get stronger", muscleGroup: "Upper body" },
+                { name: "Maximizing Tricep Strength", goal: "Get Stronger", muscleGroup: "Upper Body" },
+                { name: "Challenging your Quads", goal: "Get stronger", muscleGroup: "Lower Body" },
+                { name: "Building a Powerful Chest", goal: "Get stronger", muscleGroup: "Upper Body" },
+                { name: "Accelerating Glute Gains", goal: "Get stronger", muscleGroup: "Lower Body" },
+                { name: "Horning your Hamstring", goal: "Get stronger", muscleGroup: "Lower Body" },
+                { name: "Strength and Power", goal: "Get toned", muscleGroup: "Full Body" },
+                { name: "Sculpting your Triceps", goal: "Get toned", muscleGroup: "Upper Body" },
+                { name: "Boosted Bicep Strength", goal: "Get toned", muscleGroup: "Upper Body" },
+                { name: "The Art of Back Development", goal: "Get toned", muscleGroup: "Upper Body" },
+                { name: "Developing your Quads", goal: "Get toned", muscleGroup: "Lower Body" },
+                { name: "Shoulder Strength Blueprint", goal: "Get toned", muscleGroup: "Upper body" },
+                { name: "Hamstring Hypertrophy", goal: "Get toned", muscleGroup: "Lower Body" },
+                { name: "Transforming your Quads", goal: "Get toned", muscleGroup: "Lower Body" },
+                { name: "Mastering Shoulder Muscles", goal: "Get toned", muscleGroup: "Upper body" },
+                { name: "Bodyweight Strenght for Weight Loss", goal: "Lose weight", muscleGroup: "Full Body" },
+                { name: "Core Power", goal: "Lose weight", muscleGroup: "Full Body" },
+                { name: "Build & Burn", goal: "Lose weight", muscleGroup: "Full Body" }
+            ],
+            programs: [
+                 { name: "Foundations of Growth", goal: "Gain Strength", coach: "Alex", level: "Intermediate", description: "Perfect your form, increase your heart rate, and grow your muscles." },
+                 { name: "Complete Core", goal: "Gain Strength", coach: "Bryan", level: "Intermediate", description: "Sculpt a more powerful core to unlock your inner athlete." },
+                 { name: "Build & Burn", goal: "Gain Strength", coach: "Alex,Melissa", level: "Beginner", description: "Combine low-impact cardio and strength to help lose weight." },
+                 { name: "Strength & Power", goal: "Lose Weight", coach: "Clarence,Jonathan", level: "Intermediate", description: "Kickstart your metabolism through strength and cardio." },
+                 { name: "Stretch, Meditate, & Recover", goal: "Get Healthier", coach: "Jeremy", level: "Beginner", description: "Maximize your recovery between strength or cardio programs." },
+                 { name: "Journey to Side Crow", goal: "Get Healthier", coach: "Jeremy", level: "Intermediate", description: "A sequence to increase mobility, strength, stability, and focus." },
+                 { name: "Intermediate Yoga: 20 in 20 Pt. 2", goal: "Get Healthier", coach: "Jeremy", level: "Intermediate", description: "Upgrade your shoulder flexibility and spinal rotation in 10 days." },
+                 { name: "Strength Fundamentals Pt. 5", goal: "Gain Strength", coach: "Jonathan", level: "Intermediate", description: "Lift heavier than ever using your bench and rack." },
+                 { name: "Burn & Shred", goal: "Lose Weight", coach: "Alex,Bryan", level: "Intermediate", description: "Increase strength, improve endurance, and to move more efficiently." },
+                 { name: "Strength Power-up", goal: "Gain Strength", coach: "Clarence,Cole", level: "Intermediate", description: "Power-up your training for newfound strength gains." },
+                 { name: "Barre Fight", goal: "Improve Definition", coach: "Colby,Melissa", level: "Intermediate,Advanced", description: "Kick, punch, pulse, and shake your way to a stronger you." },
+                 { name: "Intermediate Yoga: 20 in 20 Pt. 1", goal: "Gain Strength", coach: "Jeremy", level: "Intermediate", description: "Upgrade your hamstring flexibility and balance in 20 minutes a day." },
+                 { name: "Ascend to New Strength", goal: "Get Healthier", coach: "Jonathan", level: "Intermediate", description: "Train like a bodybuilder with your Tempo bench." },
+                 { name: "Everyday Strength Pt. 2", goal: "Gain Strength,Improve Definition", coach: "Guest Coach", level: "Intermediate", description: "Gain the strength and confidence to take on life’s daily tasks." },
+                 { name: "Pilates Principles Pt. 2", goal: "Get Healthier", coach: "Alex", level: "Intermediate", description: "Add challenging new exercises to your pilates foundation." },
+                 { name: "HeartCore", goal: "Improve Definition", coach: "Bryan,Melissa", level: "Intermediate", description: "Define your strongest and most athletic core yet." },
+                 { name: "Functional Interval Training", goal: "Improve Definition", coach: "Guest Coach", level: "Intermediate", description: "Get FIT with functional strength and HIIT movements." },
+                 { name: "Beginner’s Yoga: 15 in 15", goal: "Gain Strength", coach: "Jeremy", level: "Beginner", description: "Challenge yourself to learn yoga in 15 minutes a day for 15 days." },
+                 { name: "Strength & Metabolic Conditioning Pt. 2", goal: "Improve Definition", coach: "Cole", level: "Intermediate", description: "Maximize your body’s efficiency with compound lifts and conditioning." },
+                 { name: "Strength and Resilience Pt. 2", goal: "Gain Strength", coach: "Jeremy,Jonathan", level: "Intermediate", description: "Strengthen your body and your mind." },
+                 { name: "Strength and Resilience pt. 1", goal: "Gain Strength", coach: "Jonathan,Jeremy", level: "Intermediate", description: "Combine strength and yoga to truly forge mind and muscle." },
+                 { name: "Run Strong", goal: "Gain Strength", coach: "Melissa", level: "Intermediate", description: "Build strength to support your activities off the mat." },
+                 { name: "Everyday Strength Pt. 1", goal: "Gain Strength,Improve Definition", coach: "Guest Coach", level: "Intermediate", description: "Gain the strength and confidence to take on life’s daily tasks." },
+                 { name: "Prenatal Strength", goal: "Gain Strength", coach: "Guest Coach", level: "Beginner", description: "When you’re short on energy, but craving a good workout." },
+                 { name: "Dynamic Strength Pt. 2", goal: "Gain Strength", coach: "Jonathan", level: "Intermediate", description: "Take on advanced kettlebell moves to unleash explosive power." },
+                 { name: "Dynamic Strength Pt. 1", goal: "Gain Strength", coach: "Jonathan", level: "Intermediate", description: "Ramp up your kettlebell skills to unlock explosive power." },
+                 { name: "Sculpt & Shred Remastered Pt. 2", goal: "Improve Definition", coach: "Colby", level: "Advanced", description: "Turn up the intensity with advanced exercises to sculpt and shred." },
+                 { name: "Pilates Principles Pt. 1", goal: "Get Healthier", coach: "Alex", level: "Beginner", description: "Build a solid foundation for pilates and strength classes." },
+                 { name: "Improved Range of Motion", goal: "Gain Strength", coach: "Alex", level: "Beginner", description: "Achieve proper depth for the perfect squat." },
+                 { name: "Sculpt & Shred Remastered Pt. 1", goal: "Improve Definition", coach: "Colby", level: "Intermediate", description: "Sculpt muscles and shred body fat to build overall athleticism." },
+                 { name: "Bigger, Faster, Stronger", goal: "Gain Strength", coach: "Jonathan", level: "Intermediate", description: "Lift heavy to build size and strength." },
+                 { name: "Strength & Metabolic Conditioning Pt. 1", goal: "Improve Definition", coach: "Cole", level: "Intermediate", description: "Lift heavy and push your heart rate to improve muscle endurance." },
+                 { name: "Strength Building Blocks Pt. 3", goal: "Gain Strength", coach: "Cole", level: "Beginner", description: "Continue building muscle size and strength." },
+                 { name: "Strength Building Blocks Pt. 2", goal: "Gain Strength", coach: "Cole", level: "Beginner", description: "Add weight to keep building muscle size and strength." },
+                 { name: "Upper Body Strength", goal: "Gain Strength", coach: "Jonathan", level: "Advanced", description: "An upper body hypertrophy program to build strength and size." },
+                 { name: "Meditation Challenge: Fully Alive", goal: "Get Healthier", coach: "Jeremy", level: "Intermediate", description: "Ignite your presence, appreciation, and positive mood in 14 days!" },
+                 { name: "Beginner Boxing and Core", goal: "Lose Weight", coach: "Colby", level: "Beginner", description: "Low impact program to improve strength, balance, and coordination." },
+                 { name: "Strength Building Blocks Pt.1", goal: "Gain Strength", coach: "Cole", level: "Beginner", description: "A simple approach to building muscle size and strength." },
+                 { name: "Powerhouse Abs", goal: "Gain Strength", coach: "Bryan", level: "Beginner", description: "Set foundations for building strength and stability in your core." },
+                 { name: "Commit to Your Health", goal: "Get Healthier", coach: "Clarence,Melissa,Jeremy", level: "Intermediate", description: "Build a movement habit in only 22 minutes a day." },
+                 { name: "Max Intensity", goal: "Lose Weight", coach: "Melissa", level: "Advanced", description: "Rev your metabolism and build overall athleticism." },
+                 { name: "Next Level Vinyasa Yoga Pt. 2", goal: "Improve Definition", coach: "Jeremy", level: "Intermediate", description: "Take your vinyasa yoga practice to the next level." },
+                 { name: "2 Week Strength Foundations", goal: "Gain Strength", coach: "Alex", level: "Beginner", description: "Build a solid foundation for strength training." },
+                 { name: "Next Level Vinyasa Yoga Pt. 1", goal: "Get Healthier", coach: "Jeremy", level: "Intermediate", description: "Become more physically and mentally stronger than ever." },
+                 { name: "Improved Mobility Pt. 2", goal: "Get Healthier", coach: "Cole", level: "Beginner", description: "Improve your overhead and lunge positioning." },
+                 { name: "Improved Mobility Pt. 1", goal: "Get Healthier", coach: "Cole", level: "Beginner", description: "Improve your squat and front rack positioning." },
+                 { name: "2 Week Strength for Beginners", goal: "Gain Strength", coach: "Clarence", level: "Beginner", description: "Start your strength journey with these fundamental exercises." },
+                 { name: "2 Week Gain Lower Body Strength", goal: "Gain Strength,Improve Definition", coach: "Jonathan", level: "Advanced", description: "No skipping leg day with this program!" },
+                 { name: "Metabolic Meltdown", goal: "Improve Definition,Lose Weight", coach: "Melissa", level: "Intermediate", description: "Boost your metabolism and build strength, even when you're busy." },
+                 { name: "2 Weeks to a Healthier Me", goal: "Lose Weight,Get Healthier", coach: "Clarence", level: "Beginner", description: "Low impact cardio, core, and strength training fundamentals." },
+                 { name: "2 Week Beginner Strength: Mini but Mighty", goal: "Gain Strength", coach: "Jonathan", level: "Beginner", description: "Just 2 classes a week for back to basics strength training." },
+                 { name: "Gain Strength for Fitmas", goal: "Gain Strength", coach: "Cole", level: "Intermediate", description: "A holiday sweatacular for some holly, jolly gains." },
+                 { name: "Flow into a New You", goal: "Get Healthier", coach: "Jeremy", level: "Intermediate", description: "Get inspired to transform into the best version of you." },
+                 { name: "Weight Loss Kickoff", goal: "Gain Strength,Get Healthier", coach: "Bryan", level: "Intermediate", description: "Start torching calories by increasing your heart rate." },
+                 { name: "Improve Definition: Get Started", goal: "Get Healthier", coach: "Clarence", level: "Advanced", description: "Advanced workouts to improve muscle definition." },
+                 { name: "Get Healthy Jumpstart", goal: "Gain Strength", coach: "Cole", level: "Intermediate", description: "Short challenges to track your progress." },
+                 { name: "Thrive the Holiday", goal: "Improve Definition,Lose Weight", coach: "Jeremy", level: "Intermediate", description: "Stay energized, grounded, and grateful all season." },
+                 { name: "Strength Made Simple", goal: "Lose Weight", coach: "Melissa", level: "Intermediate", description: "Gain strength and focus on technique." },
+                 { name: "Boxing Skills & Builds Pt. 3", goal: "Improve Definition", coach: "Colby", level: "Intermediate", description: "Feel undefeated with advanced combos and heavy lifting." },
+                 { name: "Weight Loss Jumpstart Pt. 2", goal: "Lose Weight", coach: "Cole", level: "Beginner", description: "Torch calories with these short, but high-intensity, classes." },
+                 { name: "Prep for Your 5K", goal: "Get Healthier", coach: "Bryan", level: "Beginner", description: "Build strength, speed, and endurance to take on a 5K." },
+                 { name: "Boxing Skills & Builds Pt. 2", goal: "Improve Definition", coach: "Colby", level: "Intermediate", description: "Take on more advanced lifting and boxing techniques." },
+                 { name: "Boxing Skills & Builds Pt. 1", goal: "Improve Definition", coach: "Colby", level: "Intermediate", description: "Gain lean muscle through boxing and strength training." },
+                 { name: "2 Week Burn Fat with Kettlebell HIIT", goal: "Lose Weight", coach: "Melissa", level: "Intermediate", description: "A high-intensity fat-burning kettlebell program." },
+                 { name: "Strength Fundamentals Pt. 1", goal: "Gain Strength", coach: "Jonathan", level: "Intermediate", description: "Maximize your training with 2 days per week." },
+                 { name: "Strength Fundamentals Pt. 2", goal: "Gain Strength", coach: "Jonathan", level: "Intermediate", description: "Body part focused strength training, 3 days per week." },
+                 { name: "Strength Fundamentals Pt. 3", goal: "Gain Strength", coach: "Jonathan", level: "Intermediate", description: "Strengthen major muscle groups, 4 days per week." },
+                 { name: "Strength Fundamentals Pt. 4", goal: "Gain Strength", coach: "Jonathan", level: "Intermediate", description: "Maximize time under tension, build serious muscle." },
+                 { name: "10 Day Learn Meditation", goal: "Get Healthier", coach: "Jeremy", level: "Beginner", description: "Train for positive mental health in this beginner’s program." },
+                 { name: "10 Day Yoga Reset", goal: "Get Healthier", coach: "Jeremy", level: "Beginner", description: "Reset the nervous system to master stress & sleep." },
+                 { name: "3 Week Gain Strength: Heavy Lifting", goal: "Gain Strength", coach: "Jonathan", level: "Intermediate", description: "Learn to overload your muscles for serious gains." },
+                 { name: "2021 Summer Challenge", goal: "Get Healthier", coach: "All Coaches", level: "Intermediate", description: "Summer's over, but you can still challenge yourself!" },
+                 { name: "4 Week Get Defined: Shape Shift 2", goal: "Improve Definition,Gain Strength", coach: "Melissa", level: "Advanced", description: "For advanced athletes to build more muscle definition." },
+                 { name: "5 Day Flexibility", goal: "Get Healthier", coach: "Jeremy", level: "Beginner", description: "Improve your flexibility to reach your goals faster and safer." },
+                 { name: "Weight Loss Jumpstart Pt. 1", goal: "Lose Weight", coach: "Cole", level: "Beginner", description: "Jumpstart your metabolism and re-establish your fitness goals." },
+                 { name: "Functional Fitness", goal: "Improve Definition", coach: "Bryan,Natalia", level: "Intermediate,Advanced", description: "Take the next step in your evolution as an athlete." },
+                 { name: "Bodyweight Foundation", goal: "Get Healthier", coach: "Melissa", level: "Beginner", description: "Start your fitness journey with bodyweight movement fundamentals." },
+                 { name: "Intro to Strength", goal: "Improve Definition,Gain Strength", coach: "Clarence", level: "Beginner", description: "Learn the fundamental exercises we use to build strength at Tempo." },
+                 { name: "Create a Habit in 10m a Day", goal: "Get Healthier", coach: "Clarence", level: "Beginner", description: "Create a healthy habit in just 10 min a day for 10 days." },
+                 { name: "5 Week C Squared", goal: "Lose Weight,Get Healthier", coach: "Cole,Colby", level: "Intermediate", description: "Torch calories while improving your cardiovascular and muscular strength." },
+                 { name: "MetCon Challenge", goal: "Lose Weight", coach: "Bryan,Clarence,Cole,Colby,Melissa", level: "Intermediate", description: "Put yourself to the test with these 9 milestone workouts." },
+                 { name: "4 Week Gym Class", goal: "Lose Weight", coach: "Bryan", level: "Intermediate", description: "Improve your athleticism through exercise and new movements." },
+                 { name: "4 Weeks To A Better Me!", goal: "Gain Strength", coach: "Clarence", level: "Intermediate", description: "Take it one day, one class at a time. Show up, show out, and be you!" },
+                 { name: "Boxing Camp", goal: "Get Healthier,Lose Weight", coach: "Colby", level: "Intermediate", description: "Torch calories with these boxing-inspired workouts." },
+                 { name: "4 Week Strength Foundation", goal: "Improve Definition", coach: "Cole", level: "Beginner", description: "Helping you build a strength training foundation." },
+                 { name: "4 Week Gain Strength: Shape Shift 1", goal: "Improve Definition,Gain Strength", coach: "Melissa", level: "Advanced", description: "A hypertrophy program for the advanced athlete." },
+                 { name: "4 Week Breakthrough", goal: "Improve Definition,Lose Weight", coach: "Natalia", level: "Intermediate", description: "Pushing you to become stronger, fitter, and more resilient." },
+                 { name: "Off-season Athlete", goal: "Improve Definition", coach: "Melissa,Bryan", level: "Advanced", description: "Work on strength, speed, agility, and more to win next season." },
+                 { name: "Fitness Kickstarter", goal: "Get Healthier,Lose Weight", coach: "Natalia", level: "Beginner", description: "Learn to love working out and kickstart your fitness journey." },
+                 { name: "6 Week Build", goal: "Gain Strength", coach: "Melissa (all coaches)", level: "Intermediate", description: "Focused strength and recovery training to build muscle." },
+                 { name: "Tempo Kickoff", goal: "Gain Strength", coach: "Clarence,Melissa", level: "Beginner", description: "Get an intro to Tempo strength training." },
+                 { name: "Sculpt & Shred", goal: "Lose Weight,Get Healthier", coach: "Colby", level: "Advanced", description: "Sculpt your muscles and shred body fat with full body workouts." },
+                 { name: "Bodyweight & Bands", goal: "Improve Definition", coach: "Clarence,Cole,Melissa,Colby,Natalia,Bryan", level: "Beginner", description: "An app-based strength program for when you're traveling." }
+            ]
+        };
+
+        generateBtn.addEventListener('click', generateRecommendation);
+
+        async function generateRecommendation() {
+            setLoading(true);
+            
+            const goals = goalsInput.value;
+            const preferences = preferencesInput.value;
+            const symptoms = symptomsInput.value;
+
+            // Construct the System Prompt with the Knowledge Base
+            const systemPrompt = `
+You are "Tempo Expert", a highly specialized fitness consultant for the Tempo team.
+Your PRIMARY JOB is to provide accurate, SOP-compliant answers to help team members assist customers.
+You MUST use the provided Knowledge Base (SOPs and Programs) as your source of truth.
+
+*** YOUR KNOWLEDGE BASE ***
+${JSON.stringify(knowledgeBase)}
+***************************
+
+**INSTRUCTIONS:**
+
+1.  **Analyze the Client Profile:**
+    * **Goals:** Identify if they want Strength (Hypertrophy vs. Lean), Weight Loss, or Health.
+    * **SOP Check:** Look for Injury keywords (Knee, Back, Wrist, Diastasis). 
+    * **CRITICAL INJURY RULE:** If an injury is mentioned, you MUST refer to the 'INJURIES SOP'. Never diagnose. Always advise consulting a doctor first. Suggest modifications or lower-impact programs (e.g., "Intro", "Mobility") ONLY if cleared.
+
+2.  **Select the Perfect Program:**
+    * Do not invent programs. Use the *exact names* from the 'programs' list or 'SOP' text.
+    * For "Weight Loss": Prioritize "Metabolic Meltdown", "Max Intensity", "Sculpt & Shred".
+    * For "Definition/Toning": Prioritize "Shape Shift", "Sculpt & Shred Remastered".
+    * For "Strength": Prioritize "Strength Fundamentals", "Heavy Lifting".
+    * For "Beginners": Prioritize "Bodyweight Foundation", "Intro to Strength".
+
+3.  **Formulate the Response for the Agent:**
+    * **Tone:** Professional, encouraging, and knowledgeable.
+    * **Structure:**
+        * **Customer Summary:** (1 sentence)
+        * **SOP/Injury Alert:** (If applicable, bold warning about medical clearance).
+        * **Primary Recommendation:** The best Program + Why it fits their goal/SOP.
+        * **Alternative Option:** A second option (e.g., shorter duration or different coach).
+        * **Expert Tip:** A specific nugget from the SOPs (e.g., "To avoid bulk, focus on lower reps with heavier weight and longer rest, as per our Get Strong SOP").
+
+4.  **Accuracy Check:**
+    * You may use Google Search to verify general medical definitions (e.g., "What is Diastasis Recti") to better understand the user's condition, but the *recommendation* must come from the Tempo SOPs.
+
+5. **Refusal:**
+    * If the user asks something totally unrelated to fitness (e.g., "How to bake a cake"), politely refuse and pivot back to fitness.
+
+`;
+
+            const userQuery = `
+Client Information:
+- **Goals:** ${goals || 'Not provided'}
+- **Preferences/Lifestyle:** ${preferences || 'Not provided'}
+- **Symptoms/Limitations:** ${symptoms || 'None'}
+
+Please generate the recommendation for the team member.
+`;
+
+            try {
+                const apiKey = ""; // Injected by environment
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+
+                const payload = {
+                    contents: [{ parts: [{ text: userQuery }] }],
+                    systemInstruction: { parts: [{ text: systemPrompt }] },
+                    tools: [{ "google_search": {} }],
+                };
+
+                const response = await retryWithBackoff(() => fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                }));
+
+                if (!response.ok) throw new Error(`API Error: ${response.status}`);
+
+                const result = await response.json();
+                const candidate = result.candidates?.[0];
+
+                if (candidate && candidate.content?.parts?.[0]?.text) {
+                    const generatedText = candidate.content.parts[0].text;
+                    responseText.innerHTML = marked.parse(generatedText);
+                    
+                    // Handle sources
+                    const groundingMetadata = candidate.groundingMetadata;
+                    sourcesList.innerHTML = '';
+                    let hasSources = false;
+                    
+                    if (groundingMetadata?.groundingAttributions) {
+                         const sources = groundingMetadata.groundingAttributions
+                            .map(a => ({ uri: a.web?.uri, title: a.web?.title }))
+                            .filter(s => s.uri && s.title);
+                            
+                        if (sources.length > 0) {
+                            hasSources = true;
+                            sources.forEach(s => {
+                                const li = document.createElement('li');
+                                li.innerHTML = `<a href="${s.uri}" target="_blank" class="hover:text-blue-600 dark:hover:text-blue-400 underline decoration-dotted">${s.title}</a>`;
+                                sourcesList.appendChild(li);
+                            });
+                        }
+                    }
+                    
+                    if (hasSources) sourcesContainer.classList.remove('hidden');
+                    else sourcesContainer.classList.add('hidden');
+
+                    welcomeState.classList.add('hidden');
+                    outputContainer.classList.remove('hidden');
+                    errorMessage.classList.add('hidden');
+                } else {
+                    throw new Error("No response generated.");
+                }
+
+            } catch (error) {
+                console.error(error);
+                errorText.textContent = error.message || "Failed to generate plan.";
+                errorMessage.classList.remove('hidden');
+                outputContainer.classList.remove('hidden'); // Show container to show error
+                responseText.innerHTML = ""; 
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        function setLoading(isLoading) {
+            if (isLoading) {
+                generateBtn.disabled = true;
+                btnText.textContent = "Consulting SOPs...";
+                loadingSpinner.classList.remove('hidden');
+                welcomeState.classList.add('hidden');
+            } else {
+                generateBtn.disabled = false;
+                btnText.textContent = "Generate Recommendation";
+                loadingSpinner.classList.add('hidden');
+            }
+        }
+
+        async function retryWithBackoff(fn, retries = 3, delay = 1000) {
+            try { return await fn(); }
+            catch (error) {
+                if (retries > 0) {
+                    await new Promise(r => setTimeout(r, delay));
+                    return retryWithBackoff(fn, retries - 1, delay * 2);
+                }
+                throw error;
+            }
+        }
+    </script>
+</body>
+</html>
