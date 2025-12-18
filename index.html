@@ -454,7 +454,9 @@ Please generate the Expert Plan and the SMS Snippets. Remember to use the separa
 `;
 
             try {
-                // UPDATE: Key hardcoded for GitHub deployment
+                // API Key handling:
+                // 1. For Canvas Preview: Keep this empty (""). The system injects a key automatically.
+                // 2. For GitHub/Deployment: Replace "" with your actual key: "AIzaSyAT8jMbBZHr1lopNMlnhbpDq4NUsoZlmj4"
                 const apiKey = "AIzaSyAT8jMbBZHr1lopNMlnhbpDq4NUsoZlmj4"; 
                 const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
 
