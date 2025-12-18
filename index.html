@@ -454,7 +454,8 @@ Please generate the Expert Plan and the SMS Snippets. Remember to use the separa
 `;
 
             try {
-                const apiKey = ""; // Leave empty for Canvas preview. For GitHub deployment, use: "AIzaSyAT8jMbBZHr1lopNMlnhbpDq4NUsoZlmj4"
+                // UPDATE: Key hardcoded for GitHub deployment
+                const apiKey = "AIzaSyAT8jMbBZHr1lopNMlnhbpDq4NUsoZlmj4"; 
                 const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
 
                 const payload = {
