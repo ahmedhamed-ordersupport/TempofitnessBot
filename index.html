@@ -76,16 +76,16 @@
         .dark #recommendationText strong, .dark #smsText strong { color: #ffffff; }
 
         /* SOP Links */
-        #recommendationText a {
+        #recommendationText a, #smsText a {
             color: #485484;
-            font-weight: 600;
+            font-weight: 700;
             text-decoration: underline;
             text-underline-offset: 3px;
             transition: color 0.2s;
         }
-        #recommendationText a:hover { color: #10b981; }
-        .dark #recommendationText a { color: #c6a777; }
-        .dark #recommendationText a:hover { color: #ffeda0; }
+        #recommendationText a:hover, #smsText a:hover { color: #10b981; }
+        .dark #recommendationText a, .dark #smsText a { color: #c6a777; }
+        .dark #recommendationText a:hover, .dark #smsText a:hover { color: #ffeda0; }
 
         .tab-active {
             border-color: #485484;
@@ -116,7 +116,7 @@
                         <img src="https://tempo.fit/_next/image?url=https%3A%2F%2Fwww.datocms-assets.com%2F135987%2F1758652384-image-5-photoroom-2.jpeg&w=1920&q=80" alt="Tempo Logo" class="h-7 w-auto">
                         <h1 class="text-base font-semibold text-gray-900 dark:text-white tracking-tight uppercase">Fitness Ops</h1>
                     </div>
-                    <button id="theme-toggle" class="p-2.5 rounded-xl bg-white dark:bg-gray-800 shadow-sm border border-slate-200 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:bg-slate-50 dark:hover:bg-gray-700 transition-all">
+                    <button id="theme-toggle" class="p-2.5 rounded-2xl bg-white dark:bg-gray-800 shadow-sm border border-slate-200 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:bg-slate-50 dark:hover:bg-gray-700 transition-all">
                         <svg id="sun-icon" class="h-5 w-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
                         <svg id="moon-icon" class="h-5 w-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
                     </button>
@@ -168,7 +168,7 @@
             <!-- Content Container -->
             <div class="flex-grow overflow-y-auto p-8 md:p-12 relative">
                 
-                <!-- Welcome State -->
+                <!-- Initial State -->
                 <div id="welcome-state" class="h-full flex flex-col items-center justify-center text-center space-y-6">
                     <div class="p-6 bg-slate-50 dark:bg-gray-900/50 rounded-full text-tempo-indigo">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 opacity-30" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -184,7 +184,7 @@
                 <!-- Error Container -->
                 <div id="error-message" class="hidden bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-900/50 p-6 rounded-2xl mb-8 flex items-start space-x-4">
                     <div class="p-2 bg-red-100 dark:bg-red-900/50 rounded-lg">
-                        <svg class="h-5 w-5 text-red-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 101.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>
+                        <svg class="h-5 w-5 text-red-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>
                     </div>
                     <div>
                         <p class="font-bold text-red-900 dark:text-red-400 text-xs tracking-widest uppercase mb-1">Service Alert</p>
@@ -201,7 +201,7 @@
                 <div id="content-sms" class="hidden">
                     <div class="bg-indigo-50/30 dark:bg-indigo-900/10 border border-indigo-100 dark:border-indigo-900/30 p-8 rounded-3xl mb-12">
                         <p class="text-[10px] font-bold text-tempo-indigo dark:text-tempo-gold uppercase tracking-[0.2em] mb-2">Coach Melissa Snippets</p>
-                        <p class="text-xs text-slate-500 dark:text-gray-400 font-medium leading-relaxed italic">Bridge the technical strategy into a friendly, human SMS reply.</p>
+                        <p class="text-xs text-slate-500 dark:text-gray-400 font-medium leading-relaxed italic">The snippets below are warm, personalized, and structured for copy-pasting directly into client SMS threads.</p>
                     </div>
                     <div id="smsText" class="prose-custom max-w-none pb-20"></div>
                 </div>
@@ -260,6 +260,7 @@
                 "Injuries Inquiries SOP": "https://tempofit.atlassian.net/wiki/spaces/CS/pages/1387397209/Injuries+Inquiries",
                 "Fitness Tips": "https://tempofit.atlassian.net/wiki/spaces/CS/pages/1388281898/Fitness+Tips",
                 "General Fitness Inquiries": "https://tempofit.atlassian.net/wiki/spaces/CS/pages/1385955438/General+Fitness+Inquiries",
+                "Nutrition Inquiries": "https://tempofit.atlassian.net/wiki/spaces/CS/pages/1386217627/Nutrition+Inquiries",
                 "Tempo Blog": "https://tempo.fit/blog"
             }
         };
@@ -270,9 +271,12 @@ Mission: Create advanced hybrid training schedules for agents.
 
 LOGIC RULES:
 1. **Hybrid Planning**: ALWAYS mix programs to meet multiple needs (e.g. Weight Loss + Recovery). 
-2. **SOP Hyperlinking**: You MUST hyperlink every mention of an SOP to its URL in the knowledge base.
-3. **Structured Format**: Use H2 and H3 tags. Keep it very clean.
-4. **Coach Melissa Voice**: For SMS, provide 3 snippets that sound human, warm, and live.
+2. **SOP Hyperlinking**: You MUST hyperlink every mention of an SOP to its URL in the knowledge base. Use [Name](URL) format.
+3. **Structured Format**: Use H2 and H3 tags. Keep it very clean and visually organized for the agent.
+4. **Coach Melissa Voice**: 
+   - Persona: Human, warm, live coach, not a bot.
+   - Tone: "Hey! Coach Melissa here..." "I was thinking about your goal to..." "Let's get after it!"
+   - Structure: Provide 3 distinct snippets organized by intent (Lead-in, The Suggestion, The Support).
 
 FORMAT:
 ## Strategy Overview
@@ -280,18 +284,18 @@ FORMAT:
 ## Weekly Hybrid Schedule
 ## Expert Tips & SOP References
 ---SMS_SECTION---
-[Snippets]
+## Option 1: The Personal Lead-In
+## Option 2: The Action Suggestion
+## Option 3: The Encouraging Wrap-Up
 `;
 
         generateBtn.onclick = async () => {
             setLoading(true);
             errorMessage.classList.add('hidden');
-            const userQuery = `GOALS: ${goalsInput.value}\nLIFESTYLE: ${preferencesInput.value}\nSYMPTOMS: ${symptomsInput.value}\nCreate Hybrid Plan. Hyperlink SOPs. Separator: ---SMS_SECTION---`;
+            const userQuery = `GOALS: ${goalsInput.value}\nLIFESTYLE: ${preferencesInput.value}\nSYMPTOMS: ${symptomsInput.value}\nGenerate a hybrid plan. Hyperlink all SOPs. Use separator: ---SMS_SECTION---`;
 
             try {
-                // YOUR NEW API KEY APPLIED HERE
                 const apiKey = "AIzaSyCWQHG0xred7GCZm1KR2nj06KMA8INAH0I"; 
-                
                 const model = "gemini-2.5-flash-preview-09-2025";
                 const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
                 
