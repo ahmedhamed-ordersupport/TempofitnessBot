@@ -24,7 +24,7 @@
                         'tempo-gold': '#c6a777',   
                         'tempo-orange': '#ef6d4f',
                         'tempo-red': '#f46d6d',
-                        'tempo-green': '#10b981' // Green for hover states
+                        'tempo-green': '#10b981'
                     },
                     fontFamily: {
                         sans: ['Montserrat', 'sans-serif'],
@@ -47,57 +47,50 @@
         }
         .dark .prose-custom { color: #f3f4f6; }
 
-        #recommendationText pre, #smsText pre {
-            background-color: #f8fafc;
-            padding: 1.25rem;
-            border-radius: 0.75rem;
-            white-space: pre-wrap;
-            overflow-x: auto;
-            border: 1px solid #e2e8f0;
-        }
-        .dark #recommendationText pre, .dark #smsText pre {
-            background-color: #111827;
-            border-color: #374151;
-        }
-        
+        /* Structuring Generated Results */
         #recommendationText h2, #smsText h2 {
-            font-weight: 700;
-            font-size: 1.4rem;
+            font-weight: 600;
+            font-size: 1.25rem;
             margin-top: 1.5rem;
             margin-bottom: 0.75rem;
             color: #000000;
-            border-bottom: 2px solid #f1f5f9;
-            padding-bottom: 0.25rem;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 0.5rem;
         }
 
         #recommendationText h3, #smsText h3 {
-            font-weight: 700;
-            font-size: 1.1rem;
-            margin-top: 1.5rem;
+            font-weight: 600;
+            font-size: 1rem;
+            margin-top: 1.25rem;
             margin-bottom: 0.5rem;
-            color: #000000;
+            color: #111827;
         }
+
         .dark #recommendationText h2, .dark #recommendationText h3, 
         .dark #smsText h2, .dark #smsText h3 { color: #ffffff; border-color: #374151; }
 
         #recommendationText strong, #smsText strong {
             color: #000000; 
-            font-weight: 700;
+            font-weight: 600;
         }
         .dark #recommendationText strong, .dark #smsText strong { color: #ffffff; }
-        
+
+        /* SOP Links */
         #recommendationText a {
             color: #485484;
             font-weight: 600;
             text-decoration: underline;
             text-underline-offset: 3px;
+            transition: color 0.2s;
         }
+        #recommendationText a:hover { color: #10b981; }
         .dark #recommendationText a { color: #c6a777; }
+        .dark #recommendationText a:hover { color: #ffeda0; }
 
         .tab-active {
             border-color: #485484;
             color: #485484;
-            font-weight: 700;
+            font-weight: 600;
         }
         .dark .tab-active {
             border-color: #c6a777;
@@ -105,7 +98,7 @@
         }
 
         /* Modern Scrollbar */
-        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar { width: 5px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
         .dark ::-webkit-scrollbar-thumb { background: #475569; }
@@ -121,9 +114,9 @@
                 <div class="flex items-center justify-between">
                     <div class="flex items-center space-x-3">
                         <img src="https://tempo.fit/_next/image?url=https%3A%2F%2Fwww.datocms-assets.com%2F135987%2F1758652384-image-5-photoroom-2.jpeg&w=1920&q=80" alt="Tempo Logo" class="h-7 w-auto">
-                        <h1 class="text-lg font-bold text-gray-900 dark:text-white tracking-tight">FITNESS OPS</h1>
+                        <h1 class="text-base font-semibold text-gray-900 dark:text-white tracking-tight uppercase">Fitness Ops</h1>
                     </div>
-                    <button id="theme-toggle" class="p-2.5 rounded-2xl bg-white dark:bg-gray-800 shadow-sm border border-slate-200 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:bg-slate-50 dark:hover:bg-gray-700 transition-all">
+                    <button id="theme-toggle" class="p-2.5 rounded-xl bg-white dark:bg-gray-800 shadow-sm border border-slate-200 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:bg-slate-50 dark:hover:bg-gray-700 transition-all">
                         <svg id="sun-icon" class="h-5 w-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
                         <svg id="moon-icon" class="h-5 w-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
                     </button>
@@ -132,23 +125,23 @@
 
             <div class="space-y-8 flex-grow">
                 <div>
-                    <label class="block text-[11px] font-bold text-slate-500 dark:text-gray-400 uppercase tracking-[0.15em] mb-3">Member Goals</label>
-                    <textarea id="goals" rows="3" class="w-full p-4 text-sm border border-slate-200 dark:border-gray-700 rounded-2xl bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-tempo-indigo/20 focus:border-tempo-indigo transition-all outline-none resize-none" placeholder="e.g. Weight loss + Yoga for breathing"></textarea>
+                    <label class="block text-[10px] font-bold text-slate-400 dark:text-gray-500 uppercase tracking-[0.2em] mb-3">Member Goals</label>
+                    <textarea id="goals" rows="3" class="w-full p-4 text-sm border border-slate-200 dark:border-gray-700 rounded-2xl bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-tempo-indigo/20 focus:border-tempo-indigo transition-all outline-none resize-none" placeholder="e.g. Weight loss + Strength"></textarea>
                 </div>
                 
                 <div>
-                    <label class="block text-[11px] font-bold text-slate-500 dark:text-gray-400 uppercase tracking-[0.15em] mb-3">Lifestyle & Equipment</label>
-                    <textarea id="preferences" rows="3" class="w-full p-4 text-sm border border-slate-200 dark:border-gray-700 rounded-2xl bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-tempo-indigo/20 focus:border-tempo-indigo transition-all outline-none resize-none" placeholder="e.g. 20-30 mins, has dumbbells only"></textarea>
+                    <label class="block text-[10px] font-bold text-slate-400 dark:text-gray-500 uppercase tracking-[0.2em] mb-3">Lifestyle & Equipment</label>
+                    <textarea id="preferences" rows="3" class="w-full p-4 text-sm border border-slate-200 dark:border-gray-700 rounded-2xl bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-tempo-indigo/20 focus:border-tempo-indigo transition-all outline-none resize-none" placeholder="e.g. Home gym, 30 mins"></textarea>
                 </div>
 
                 <div>
-                    <label class="block text-[11px] font-bold text-slate-500 dark:text-gray-400 uppercase tracking-[0.15em] mb-3">Symptoms & Physicality</label>
-                    <textarea id="symptoms" rows="3" class="w-full p-4 text-sm border border-slate-200 dark:border-gray-700 rounded-2xl bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-tempo-indigo/20 focus:border-tempo-indigo transition-all outline-none resize-none" placeholder="e.g. Knee discomfort, desk worker posture"></textarea>
+                    <label class="block text-[10px] font-bold text-slate-400 dark:text-gray-500 uppercase tracking-[0.2em] mb-3">Symptoms</label>
+                    <textarea id="symptoms" rows="3" class="w-full p-4 text-sm border border-slate-200 dark:border-gray-700 rounded-2xl bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-tempo-indigo/20 focus:border-tempo-indigo transition-all outline-none resize-none" placeholder="e.g. Lower back pain"></textarea>
                 </div>
             </div>
 
             <div class="mt-10">
-                <button id="generate-btn" class="w-full bg-tempo-indigo text-white font-bold py-4 px-6 rounded-2xl shadow-lg hover:bg-tempo-green hover:shadow-tempo-green/20 hover:-translate-y-0.5 active:translate-y-0 transition-all flex justify-center items-center">
+                <button id="generate-btn" class="w-full bg-tempo-indigo text-white font-semibold py-4 px-6 rounded-2xl shadow-lg hover:bg-tempo-green hover:shadow-tempo-green/20 hover:-translate-y-0.5 active:translate-y-0 transition-all flex justify-center items-center">
                     <span id="btn-text">GENERATE HYBRID PLAN</span>
                     <span id="loading-spinner" class="hidden ml-3">
                         <svg class="animate-spin h-5 w-5 text-white" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
@@ -163,10 +156,10 @@
             <!-- Tab Navigation -->
             <div id="tabs-header" class="hidden flex-shrink-0 border-b border-slate-100 dark:border-gray-700 bg-white dark:bg-gray-800 z-10">
                 <nav class="flex space-x-10 px-10">
-                    <button id="tab-recommendation" class="tab-active whitespace-nowrap py-6 px-1 border-b-2 text-[12px] tracking-wider transition-all uppercase">
+                    <button id="tab-recommendation" class="tab-active whitespace-nowrap py-6 px-1 border-b-2 text-[11px] font-semibold tracking-[0.15em] transition-all uppercase">
                         Master Strategy
                     </button>
-                    <button id="tab-sms" class="border-transparent text-slate-400 dark:text-gray-500 hover:text-slate-600 dark:hover:text-gray-300 whitespace-nowrap py-6 px-1 border-b-2 font-semibold text-[12px] tracking-wider transition-all uppercase">
+                    <button id="tab-sms" class="border-transparent text-slate-400 dark:text-gray-500 hover:text-slate-600 dark:hover:text-gray-300 whitespace-nowrap py-6 px-1 border-b-2 font-semibold text-[11px] tracking-[0.15em] transition-all uppercase">
                         Coach Melissa Drafts
                     </button>
                 </nav>
@@ -175,26 +168,26 @@
             <!-- Content Container -->
             <div class="flex-grow overflow-y-auto p-8 md:p-12 relative">
                 
-                <!-- Initial State -->
+                <!-- Welcome State -->
                 <div id="welcome-state" class="h-full flex flex-col items-center justify-center text-center space-y-6">
                     <div class="p-6 bg-slate-50 dark:bg-gray-900/50 rounded-full text-tempo-indigo">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 opacity-20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 opacity-30" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                         </svg>
                     </div>
                     <div class="max-w-xs space-y-2">
-                        <h2 class="text-xl font-bold text-slate-900 dark:text-white">Awaiting Input</h2>
-                        <p class="text-sm text-slate-500 font-medium">I'm ready to mix and match Tempo content to create the perfect hybrid strategy.</p>
+                        <h2 class="text-lg font-semibold text-slate-900 dark:text-white uppercase tracking-wider">Expert Consultant</h2>
+                        <p class="text-sm text-slate-400 font-medium">Input member details to generate an SOP-grounded strategy.</p>
                     </div>
                 </div>
 
                 <!-- Error Container -->
                 <div id="error-message" class="hidden bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-900/50 p-6 rounded-2xl mb-8 flex items-start space-x-4">
                     <div class="p-2 bg-red-100 dark:bg-red-900/50 rounded-lg">
-                        <svg class="h-5 w-5 text-red-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>
+                        <svg class="h-5 w-5 text-red-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 101.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>
                     </div>
                     <div>
-                        <p class="font-bold text-red-900 dark:text-red-400 text-sm mb-1">Service Alert</p>
+                        <p class="font-bold text-red-900 dark:text-red-400 text-xs tracking-widest uppercase mb-1">Service Alert</p>
                         <span id="error-text" class="text-xs text-red-700 dark:text-red-300 font-medium leading-relaxed"></span>
                     </div>
                 </div>
@@ -206,11 +199,9 @@
 
                 <!-- SMS Panel -->
                 <div id="content-sms" class="hidden">
-                    <div class="bg-indigo-50/50 dark:bg-indigo-900/10 border border-indigo-100 dark:border-indigo-900/30 p-8 rounded-3xl mb-12">
-                        <div class="flex items-center space-x-2 mb-3">
-                            <span class="text-[10px] font-bold text-tempo-indigo dark:text-tempo-gold uppercase tracking-[0.2em]">Voice Consistency</span>
-                        </div>
-                        <p class="text-sm text-slate-700 dark:text-gray-400 font-medium leading-relaxed italic">The following snippets use Coach Melissa's human-first tone. Use these to bridge the technical recommendation into a natural SMS conversation.</p>
+                    <div class="bg-indigo-50/30 dark:bg-indigo-900/10 border border-indigo-100 dark:border-indigo-900/30 p-8 rounded-3xl mb-12">
+                        <p class="text-[10px] font-bold text-tempo-indigo dark:text-tempo-gold uppercase tracking-[0.2em] mb-2">Coach Melissa Snippets</p>
+                        <p class="text-xs text-slate-500 dark:text-gray-400 font-medium leading-relaxed italic">Bridge the technical strategy into a friendly, human SMS reply.</p>
                     </div>
                     <div id="smsText" class="prose-custom max-w-none pb-20"></div>
                 </div>
@@ -254,8 +245,8 @@
         function switchTab(tab) {
             contentRecommendation.classList.toggle('hidden', tab !== 'recommendation');
             contentSms.classList.toggle('hidden', tab !== 'sms');
-            tabRecBtn.className = tab === 'recommendation' ? "tab-active whitespace-nowrap py-6 px-1 border-b-2 text-[12px] tracking-wider transition-all uppercase" : "border-transparent text-slate-400 dark:text-gray-500 hover:text-slate-600 dark:hover:text-gray-300 whitespace-nowrap py-6 px-1 border-b-2 font-semibold text-[12px] tracking-wider transition-all uppercase";
-            tabSmsBtn.className = tab === 'sms' ? "tab-active whitespace-nowrap py-6 px-1 border-b-2 text-[12px] tracking-wider transition-all uppercase" : "border-transparent text-slate-400 dark:text-gray-500 hover:text-slate-600 dark:hover:text-gray-300 whitespace-nowrap py-6 px-1 border-b-2 font-semibold text-[12px] tracking-wider transition-all uppercase";
+            tabRecBtn.className = tab === 'recommendation' ? "tab-active whitespace-nowrap py-6 px-1 border-b-2 text-[11px] font-semibold tracking-[0.15em] transition-all uppercase" : "border-transparent text-slate-400 dark:text-gray-500 hover:text-slate-600 dark:hover:text-gray-300 whitespace-nowrap py-6 px-1 border-b-2 font-semibold text-[11px] tracking-[0.15em] transition-all uppercase";
+            tabSmsBtn.className = tab === 'sms' ? "tab-active whitespace-nowrap py-6 px-1 border-b-2 text-[11px] font-semibold tracking-[0.15em] transition-all uppercase" : "border-transparent text-slate-400 dark:text-gray-500 hover:text-slate-600 dark:hover:text-gray-300 whitespace-nowrap py-6 px-1 border-b-2 font-semibold text-[11px] tracking-[0.15em] transition-all uppercase";
         }
         tabRecBtn.onclick = () => switchTab('recommendation');
         tabSmsBtn.onclick = () => switchTab('sms');
@@ -263,54 +254,44 @@
         // --- KNOWLEDGE BASE ---
         const knowledgeBase = {
             referenceLinks: {
-                "Get Strong": "https://tempofit.atlassian.net/wiki/spaces/CS/pages/1385693249/Get+Strong",
-                "Improve Definition": "https://tempofit.atlassian.net/wiki/spaces/CS/pages/1387855920/Improve+definition",
-                "Lose Weight": "https://tempofit.atlassian.net/wiki/spaces/CS/pages/1387397155/Lose+Weight+and+Getting+Healthier",
+                "Get Strong SOP": "https://tempofit.atlassian.net/wiki/spaces/CS/pages/1385693249/Get+Strong",
+                "Improve Definition SOP": "https://tempofit.atlassian.net/wiki/spaces/CS/pages/1387855920/Improve+definition",
+                "Lose Weight SOP": "https://tempofit.atlassian.net/wiki/spaces/CS/pages/1387397155/Lose+Weight+and+Getting+Healthier",
+                "Injuries Inquiries SOP": "https://tempofit.atlassian.net/wiki/spaces/CS/pages/1387397209/Injuries+Inquiries",
                 "Fitness Tips": "https://tempofit.atlassian.net/wiki/spaces/CS/pages/1388281898/Fitness+Tips",
-                "General Inquiries": "https://tempofit.atlassian.net/wiki/spaces/CS/pages/1385955438/General+Fitness+Inquiries",
-                "Pre/Post-Natal": "https://tempofit.atlassian.net/wiki/spaces/CS/pages/1386086563/Pre+Post-Natal+Inquiry",
-                "Nutrition": "https://tempofit.atlassian.net/wiki/spaces/CS/pages/1386217627/Nutrition+Inquiries",
-                "Injuries": "https://tempofit.atlassian.net/wiki/spaces/CS/pages/1387397209/Injuries+Inquiries",
-                "Calorie FAQ": "https://tempofit.atlassian.net/wiki/spaces/CS/pages/130875393/FAQ+Calorie+Estimations+and+Heart+Rate+Training",
-                "Fitness FAQ": "https://tempofit.atlassian.net/wiki/spaces/CS/pages/294917/Fitness+FAQ",
+                "General Fitness Inquiries": "https://tempofit.atlassian.net/wiki/spaces/CS/pages/1385955438/General+Fitness+Inquiries",
                 "Tempo Blog": "https://tempo.fit/blog"
             }
         };
 
         const systemPrompt = `
 You are the "Tempo Expert Orchestrator". 
-Mission: Create advanced hybrid training schedules for Tempo members that agents can use.
+Mission: Create advanced hybrid training schedules for agents.
 
 LOGIC RULES:
-1. **Hybrid Planning**: Mix and match programs to meet all member needs (e.g. if weight loss + breathing, pair a HIIT program with a mobility/recovery program).
-2. **Structuring**: Use Markdown headings (## and ###) to organize the plan. Make it clean and easy for an agent to read.
-3. **Hyperlinks**: You MUST hyperlink every mention of a Tempo SOP or category to its corresponding URL in the knowledge base.
-4. **Coach Melissa Voice**: In the SMS section, provide natural snippets. Be warm, avoid sounding like a bot.
+1. **Hybrid Planning**: ALWAYS mix programs to meet multiple needs (e.g. Weight Loss + Recovery). 
+2. **SOP Hyperlinking**: You MUST hyperlink every mention of an SOP to its URL in the knowledge base.
+3. **Structured Format**: Use H2 and H3 tags. Keep it very clean.
+4. **Coach Melissa Voice**: For SMS, provide 3 snippets that sound human, warm, and live.
 
 FORMAT:
 ## Strategy Overview
-[1-2 sentences on the client's mix of goals]
-
 ## Recommendation Summary
-[The specific programs selected + Why the mix works]
-
-## Weekly Training Schedule
-[A structured Mon-Sun plan]
-
-## Expert Tips & SOP Logic
-[Reference specific SOP logic - e.g. hypertrophy rep ranges or medical clearance warnings]
-
+## Weekly Hybrid Schedule
+## Expert Tips & SOP References
 ---SMS_SECTION---
-[3 snippets from Coach Melissa]
+[Snippets]
 `;
 
         generateBtn.onclick = async () => {
             setLoading(true);
             errorMessage.classList.add('hidden');
-            const userQuery = `GOALS: ${goalsInput.value}\nLIFESTYLE: ${preferencesInput.value}\nSYMPTOMS: ${symptomsInput.value}\nCreate Hybrid Plan with structure. Hyperlink SOPs. Separator: ---SMS_SECTION---`;
+            const userQuery = `GOALS: ${goalsInput.value}\nLIFESTYLE: ${preferencesInput.value}\nSYMPTOMS: ${symptomsInput.value}\nCreate Hybrid Plan. Hyperlink SOPs. Separator: ---SMS_SECTION---`;
 
             try {
-                const apiKey = ""; // API Key provided by environment
+                // YOUR NEW API KEY APPLIED HERE
+                const apiKey = "AIzaSyCWQHG0xred7GCZm1KR2nj06KMA8INAH0I"; 
+                
                 const model = "gemini-2.5-flash-preview-09-2025";
                 const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
                 
@@ -334,8 +315,8 @@ FORMAT:
                 if (!text) throw new Error("No recommendation was generated.");
 
                 const [rec, sms] = text.split('---SMS_SECTION---');
-                recommendationText.innerHTML = marked.parse(rec || "Unable to parse strategy.");
-                smsText.innerHTML = marked.parse(sms || "Unable to parse SMS drafts.");
+                recommendationText.innerHTML = marked.parse(rec || "");
+                smsText.innerHTML = marked.parse(sms || "");
 
                 welcomeState.classList.add('hidden');
                 tabsHeader.classList.remove('hidden');
@@ -350,7 +331,7 @@ FORMAT:
 
         function setLoading(isLoading) {
             generateBtn.disabled = isLoading;
-            btnText.textContent = isLoading ? "ANALYZING..." : "GENERATE HYBRID PLAN";
+            btnText.textContent = isLoading ? "ORCHESTRATING..." : "GENERATE HYBRID PLAN";
             loadingSpinner.classList.toggle('hidden', !isLoading);
         }
     </script>
