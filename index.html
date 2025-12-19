@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fitness Expert Assistant</title>
+    <title>Fitness Expert Assistant | Tempo Ops</title>
     <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Load Marked.js for Markdown rendering -->
@@ -12,21 +12,22 @@
     <!-- Load Montserrat Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <script>
-        // Configure Tailwind to use custom colors and enable dark mode via class
         tailwind.config = {
             darkMode: 'class', 
             theme: {
                 extend: {
                     colors: {
-                        'tempo-indigo': '#485484', // Primary button color
-                        'tempo-gold': '#c6a777',   // Accent/Highlight color (e.g., status badge)
-                        'tempo-red': '#f46d6d',    // Error color
+                        'tempo-indigo': '#485484', 
+                        'tempo-gold': '#c6a777',   
+                        'tempo-orange': '#ef6d4f',
+                        'tempo-red': '#f46d6d',
+                        'tempo-green': '#10b981' // Green for hover states
                     },
                     fontFamily: {
-                        sans: ['Montserrat', 'sans-serif'], // Updated to Montserrat
+                        sans: ['Montserrat', 'sans-serif'],
                     },
                 }
             }
@@ -34,187 +35,185 @@
     </script>
 
     <style>
-        /* Custom styles for prose styling */
+        body { 
+            font-family: 'Montserrat', sans-serif; 
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        /* High contrast for light mode - Deep Black */
+        .prose-custom { 
+            color: #030712; 
+            line-height: 1.6;
+        }
+        .dark .prose-custom { color: #f3f4f6; }
+
         #recommendationText pre, #smsText pre {
-            background-color: #f3f4f6;
-            padding: 1rem;
-            border-radius: 0.5rem;
+            background-color: #f8fafc;
+            padding: 1.25rem;
+            border-radius: 0.75rem;
             white-space: pre-wrap;
             overflow-x: auto;
+            border: 1px solid #e2e8f0;
         }
         .dark #recommendationText pre, .dark #smsText pre {
-            background-color: #374151; /* Tailwind gray-700 */
+            background-color: #111827;
+            border-color: #374151;
         }
         
-        /* List Styles */
-        #recommendationText ul, #smsText ul {
-            list-style-position: inside;
-            list-style-type: disc;
-            padding-left: 1.5rem;
-        }
-         #recommendationText ol, #smsText ol {
-            list-style-position: inside;
-            list-style-type: decimal;
-            padding-left: 1.5rem;
+        #recommendationText h2, #smsText h2 {
+            font-weight: 700;
+            font-size: 1.4rem;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: #000000;
+            border-bottom: 2px solid #f1f5f9;
+            padding-bottom: 0.25rem;
         }
 
-        /* Heading Styles */
         #recommendationText h3, #smsText h3 {
             font-weight: 700;
-            font-size: 1.125rem;
-            margin-top: 1.25rem;
+            font-size: 1.1rem;
+            margin-top: 1.5rem;
             margin-bottom: 0.5rem;
-            color: #111827; /* Dark black for light mode */
+            color: #000000;
         }
-        .dark #recommendationText h3, .dark #smsText h3 {
-             color: #ffffff;
-        }
+        .dark #recommendationText h2, .dark #recommendationText h3, 
+        .dark #smsText h2, .dark #smsText h3 { color: #ffffff; border-color: #374151; }
 
-        /* Bold Text Styles */
         #recommendationText strong, #smsText strong {
-            color: #000000; /* Deep black for light mode */
+            color: #000000; 
             font-weight: 700;
         }
-        .dark #recommendationText strong, .dark #smsText strong {
-             color: #ffffff;
-        }
+        .dark #recommendationText strong, .dark #smsText strong { color: #ffffff; }
         
-        /* Link Styles */
         #recommendationText a {
             color: #485484;
+            font-weight: 600;
             text-decoration: underline;
+            text-underline-offset: 3px;
         }
-        .dark #recommendationText a {
-            color: #93c5fd;
+        .dark #recommendationText a { color: #c6a777; }
+
+        .tab-active {
+            border-color: #485484;
+            color: #485484;
+            font-weight: 700;
+        }
+        .dark .tab-active {
+            border-color: #c6a777;
+            color: #c6a777;
         }
 
-        /* Base Text Color for Light Mode */
-        .prose {
-            color: #111827; /* Gray-900/Black */
-        }
+        /* Modern Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        .dark ::-webkit-scrollbar-thumb { background: #475569; }
     </style>
 </head>
-<body class="bg-gray-100 dark:bg-gray-900 min-h-screen flex items-center justify-center p-4 transition-colors duration-300">
+<body class="bg-slate-50 dark:bg-gray-900 min-h-screen flex items-center justify-center p-4 transition-colors duration-300">
 
-    <div class="bg-white dark:bg-gray-800 w-full max-w-7xl rounded-xl shadow-lg flex flex-col md:flex-row overflow-hidden h-[90vh] transition-colors duration-300">
+    <div class="bg-white dark:bg-gray-800 w-full max-w-7xl rounded-3xl shadow-2xl flex flex-col md:flex-row overflow-hidden h-[92vh] transition-colors duration-300 border border-slate-200 dark:border-gray-700">
         
-        <!-- Left Panel: Inputs -->
-        <div class="w-full md:w-1/3 bg-gray-50 dark:bg-gray-700 p-6 border-r border-gray-200 dark:border-gray-700 flex flex-col overflow-y-auto transition-colors duration-300">
-            <div class="mb-6 flex flex-col">
+        <!-- Sidebar / Inputs -->
+        <div class="w-full md:w-1/3 bg-slate-50/50 dark:bg-gray-900/40 p-8 border-r border-slate-200 dark:border-gray-700 flex flex-col overflow-y-auto">
+            <div class="mb-10">
                 <div class="flex items-center justify-between">
-                    <div class="flex items-center space-x-2">
-                        <!-- Tempo Logo -->
-                        <img src="https://tempo.fit/_next/image?url=https%3A%2F%2Fwww.datocms-assets.com%2F135987%2F1758652384-image-5-photoroom-2.jpeg&w=1920&q=80" alt="Tempo Logo" class="h-6 w-auto">
-                        <h1 class="text-xl font-bold text-gray-900 dark:text-white">Fitness Ops</h1>
+                    <div class="flex items-center space-x-3">
+                        <img src="https://tempo.fit/_next/image?url=https%3A%2F%2Fwww.datocms-assets.com%2F135987%2F1758652384-image-5-photoroom-2.jpeg&w=1920&q=80" alt="Tempo Logo" class="h-7 w-auto">
+                        <h1 class="text-lg font-bold text-gray-900 dark:text-white tracking-tight">FITNESS OPS</h1>
                     </div>
-                    <!-- Theme Toggle Button -->
-                    <button id="theme-toggle" class="p-2 rounded-full text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors duration-200">
-                        <!-- Sun Icon (Light Mode) -->
-                        <svg id="sun-icon" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-                        </svg>
-                        <!-- Moon Icon (Dark Mode) -->
-                        <svg id="moon-icon" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-                        </svg>
+                    <button id="theme-toggle" class="p-2.5 rounded-2xl bg-white dark:bg-gray-800 shadow-sm border border-slate-200 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:bg-slate-50 dark:hover:bg-gray-700 transition-all">
+                        <svg id="sun-icon" class="h-5 w-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                        <svg id="moon-icon" class="h-5 w-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
                     </button>
                 </div>
-                <p class="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider font-semibold mt-1">Expert Team Assistant</p>
             </div>
 
-            <div class="space-y-4 flex-grow">
+            <div class="space-y-8 flex-grow">
                 <div>
-                    <label for="goals" class="block text-xs font-bold text-gray-700 dark:text-gray-300 uppercase mb-1">Customer Goals</label>
-                    <textarea id="goals" rows="3" class="w-full p-3 text-sm border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:ring-2 focus:ring-tempo-indigo focus:border-tempo-indigo dark:bg-gray-600 dark:text-white dark:placeholder-gray-300" placeholder="e.g., 'Build glutes but not quads', 'Run a half marathon', 'Lose 5lbs'"></textarea>
+                    <label class="block text-[11px] font-bold text-slate-500 dark:text-gray-400 uppercase tracking-[0.15em] mb-3">Member Goals</label>
+                    <textarea id="goals" rows="3" class="w-full p-4 text-sm border border-slate-200 dark:border-gray-700 rounded-2xl bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-tempo-indigo/20 focus:border-tempo-indigo transition-all outline-none resize-none" placeholder="e.g. Weight loss + Yoga for breathing"></textarea>
                 </div>
                 
                 <div>
-                    <label for="preferences" class="block text-xs font-bold text-gray-700 dark:text-gray-300 uppercase mb-1">Lifestyle / Prefs</label>
-                    <textarea id="preferences" rows="3" class="w-full p-3 text-sm border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:ring-2 focus:ring-tempo-indigo focus:border-tempo-indigo dark:bg-gray-600 dark:text-white dark:placeholder-gray-300" placeholder="e.g., 'Has dumbbells only', '30 mins/day', 'Hates cardio'"></textarea>
+                    <label class="block text-[11px] font-bold text-slate-500 dark:text-gray-400 uppercase tracking-[0.15em] mb-3">Lifestyle & Equipment</label>
+                    <textarea id="preferences" rows="3" class="w-full p-4 text-sm border border-slate-200 dark:border-gray-700 rounded-2xl bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-tempo-indigo/20 focus:border-tempo-indigo transition-all outline-none resize-none" placeholder="e.g. 20-30 mins, has dumbbells only"></textarea>
                 </div>
 
                 <div>
-                    <label for="symptoms" class="block text-xs font-bold text-gray-700 dark:text-gray-300 uppercase mb-1">Symptoms / Injuries</label>
-                    <textarea id="symptoms" rows="3" class="w-full p-3 text-sm border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:ring-2 focus:ring-tempo-indigo focus:border-tempo-indigo dark:bg-gray-600 dark:text-white dark:placeholder-gray-300" placeholder="e.g., 'Knee pain on lunges', 'Lower back stiffness', 'Diastasis Recti'"></textarea>
+                    <label class="block text-[11px] font-bold text-slate-500 dark:text-gray-400 uppercase tracking-[0.15em] mb-3">Symptoms & Physicality</label>
+                    <textarea id="symptoms" rows="3" class="w-full p-4 text-sm border border-slate-200 dark:border-gray-700 rounded-2xl bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-tempo-indigo/20 focus:border-tempo-indigo transition-all outline-none resize-none" placeholder="e.g. Knee discomfort, desk worker posture"></textarea>
                 </div>
             </div>
 
-            <div class="mt-6">
-                <button id="generate-btn" class="w-full bg-tempo-indigo text-white font-bold py-3 px-6 rounded-lg shadow-md hover:bg-[#344171] focus:outline-none focus:ring-2 focus:ring-tempo-indigo focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition duration-200 flex justify-center items-center">
-                    <span id="btn-text">Generate Plan</span>
-                    <span id="loading-spinner" class="hidden ml-2" role="status">
-                        <svg aria-hidden="true" class="w-4 h-4 text-white animate-spin fill-tempo-gold" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67228 50 9.67228C27.4013 9.67228 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
-                            <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.72328 37.806 4.11358 38.4501 6.48543C39.0943 8.85727 41.5656 10.2257 43.9872 9.71881C48.2166 8.9731 52.5413 8.82007 56.7698 9.58434C61.8841 10.3204 66.8611 11.9304 71.5218 14.28C76.1825 16.6296 80.4573 19.7046 84.115 23.4111C87.7727 27.1177 90.7383 31.4251 92.8391 36.142C93.414 37.6014 93.9676 39.0409Z" fill="currentColor"/>
-                        </svg>
+            <div class="mt-10">
+                <button id="generate-btn" class="w-full bg-tempo-indigo text-white font-bold py-4 px-6 rounded-2xl shadow-lg hover:bg-tempo-green hover:shadow-tempo-green/20 hover:-translate-y-0.5 active:translate-y-0 transition-all flex justify-center items-center">
+                    <span id="btn-text">GENERATE HYBRID PLAN</span>
+                    <span id="loading-spinner" class="hidden ml-3">
+                        <svg class="animate-spin h-5 w-5 text-white" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
                     </span>
                 </button>
             </div>
         </div>
 
-        <!-- Right Panel: Output -->
-        <div class="w-full md:w-2/3 flex flex-col bg-white dark:bg-gray-800 relative transition-colors duration-300">
+        <!-- Main Display -->
+        <div class="w-full md:w-2/3 flex flex-col bg-white dark:bg-gray-800 relative">
             
-            <!-- Tabs Header -->
-            <div id="tabs-header" class="hidden flex-shrink-0 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
-                <nav class="-mb-px flex space-x-8 px-6" aria-label="Tabs">
-                    <button id="tab-recommendation" class="border-tempo-indigo text-tempo-indigo dark:text-white dark:border-white whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors">
-                        Expert Recommendation
+            <!-- Tab Navigation -->
+            <div id="tabs-header" class="hidden flex-shrink-0 border-b border-slate-100 dark:border-gray-700 bg-white dark:bg-gray-800 z-10">
+                <nav class="flex space-x-10 px-10">
+                    <button id="tab-recommendation" class="tab-active whitespace-nowrap py-6 px-1 border-b-2 text-[12px] tracking-wider transition-all uppercase">
+                        Master Strategy
                     </button>
-                    <button id="tab-sms" class="border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors">
-                        SMS Drafter (Coach Melissa)
+                    <button id="tab-sms" class="border-transparent text-slate-400 dark:text-gray-500 hover:text-slate-600 dark:hover:text-gray-300 whitespace-nowrap py-6 px-1 border-b-2 font-semibold text-[12px] tracking-wider transition-all uppercase">
+                        Coach Melissa Drafts
                     </button>
                 </nav>
             </div>
 
-            <!-- Content Area -->
-            <div class="flex-grow overflow-y-auto p-6 sm:p-8 relative">
+            <!-- Content Container -->
+            <div class="flex-grow overflow-y-auto p-8 md:p-12 relative">
                 
-                <!-- Welcome State -->
-                <div id="welcome-state" class="h-full flex flex-col items-center justify-center text-center text-gray-400 space-y-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                    </svg>
-                    <div class="max-w-md">
-                        <p class="font-medium text-gray-600 dark:text-gray-300">Ready to Assist</p>
-                        <p class="text-sm mt-2 text-gray-500 dark:text-gray-400">Enter details to generate a comprehensive plan and SMS drafts.</p>
+                <!-- Initial State -->
+                <div id="welcome-state" class="h-full flex flex-col items-center justify-center text-center space-y-6">
+                    <div class="p-6 bg-slate-50 dark:bg-gray-900/50 rounded-full text-tempo-indigo">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 opacity-20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                        </svg>
+                    </div>
+                    <div class="max-w-xs space-y-2">
+                        <h2 class="text-xl font-bold text-slate-900 dark:text-white">Awaiting Input</h2>
+                        <p class="text-sm text-slate-500 font-medium">I'm ready to mix and match Tempo content to create the perfect hybrid strategy.</p>
                     </div>
                 </div>
 
-                <!-- Error Message -->
-                <div id="error-message" class="hidden bg-tempo-red/10 border border-tempo-red text-tempo-red px-4 py-3 rounded-lg mb-4 text-sm flex-shrink-0" role="alert">
-                    <strong class="font-bold">Error:</strong> <span id="error-text"></span>
+                <!-- Error Container -->
+                <div id="error-message" class="hidden bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-900/50 p-6 rounded-2xl mb-8 flex items-start space-x-4">
+                    <div class="p-2 bg-red-100 dark:bg-red-900/50 rounded-lg">
+                        <svg class="h-5 w-5 text-red-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>
+                    </div>
+                    <div>
+                        <p class="font-bold text-red-900 dark:text-red-400 text-sm mb-1">Service Alert</p>
+                        <span id="error-text" class="text-xs text-red-700 dark:text-red-300 font-medium leading-relaxed"></span>
+                    </div>
                 </div>
 
-                <!-- Recommendation Tab Content -->
-                <div id="content-recommendation" class="hidden h-full flex flex-col">
-                    <div class="flex justify-between items-start mb-4 border-b border-gray-100 dark:border-gray-700 pb-4 flex-shrink-0">
-                        <div>
-                            <h2 class="text-xl font-bold text-gray-900 dark:text-white">Expert Plan</h2>
-                            <p class="text-sm text-gray-500 dark:text-gray-400">SOP & Blog Grounded</p>
+                <!-- Recommendation Panel -->
+                <div id="content-recommendation" class="hidden">
+                    <div id="recommendationText" class="prose-custom max-w-none pb-20"></div>
+                </div>
+
+                <!-- SMS Panel -->
+                <div id="content-sms" class="hidden">
+                    <div class="bg-indigo-50/50 dark:bg-indigo-900/10 border border-indigo-100 dark:border-indigo-900/30 p-8 rounded-3xl mb-12">
+                        <div class="flex items-center space-x-2 mb-3">
+                            <span class="text-[10px] font-bold text-tempo-indigo dark:text-tempo-gold uppercase tracking-[0.2em]">Voice Consistency</span>
                         </div>
-                        <span class="bg-tempo-gold/10 text-tempo-gold border border-tempo-gold text-xs font-medium px-2.5 py-0.5 rounded">Verified</span>
+                        <p class="text-sm text-slate-700 dark:text-gray-400 font-medium leading-relaxed italic">The following snippets use Coach Melissa's human-first tone. Use these to bridge the technical recommendation into a natural SMS conversation.</p>
                     </div>
-                    <div id="recommendationText" class="prose prose-sm max-w-none text-gray-900 dark:text-gray-300 flex-grow pb-10"></div>
-                    <!-- Sources -->
-                    <div id="sources-container" class="mt-4 pt-4 border-t border-gray-100 dark:border-gray-700 hidden flex-shrink-0">
-                        <h4 class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2">Sources & References</h4>
-                        <ul id="sources-list" class="space-y-1 text-xs text-gray-500 dark:text-gray-400"></ul>
-                    </div>
+                    <div id="smsText" class="prose-custom max-w-none pb-20"></div>
                 </div>
-
-                <!-- SMS Drafter Tab Content -->
-                <div id="content-sms" class="hidden h-full flex flex-col">
-                    <div class="flex justify-between items-start mb-4 border-b border-gray-100 dark:border-gray-700 pb-4 flex-shrink-0">
-                        <div>
-                            <h2 class="text-xl font-bold text-gray-900 dark:text-white">Coach Melissa SMS</h2>
-                            <p class="text-sm text-gray-500 dark:text-gray-400">Natural Snippets for Client Replies</p>
-                        </div>
-                        <span class="bg-blue-100 text-blue-800 border border-blue-400 text-xs font-medium px-2.5 py-0.5 rounded">Draft Mode</span>
-                    </div>
-                    <div id="smsText" class="prose prose-sm max-w-none text-gray-900 dark:text-gray-300 flex-grow pb-10"></div>
-                </div>
-
             </div>
         </div>
     </div>
@@ -225,345 +224,134 @@
         const loadingSpinner = document.getElementById('loading-spinner');
         const welcomeState = document.getElementById('welcome-state');
         const tabsHeader = document.getElementById('tabs-header');
-        
         const goalsInput = document.getElementById('goals');
         const preferencesInput = document.getElementById('preferences');
         const symptomsInput = document.getElementById('symptoms');
-        
         const errorMessage = document.getElementById('error-message');
         const errorText = document.getElementById('error-text');
-
-        // Output containers
         const contentRecommendation = document.getElementById('content-recommendation');
         const contentSms = document.getElementById('content-sms');
         const recommendationText = document.getElementById('recommendationText');
         const smsText = document.getElementById('smsText');
-        const sourcesContainer = document.getElementById('sources-container');
-        const sourcesList = document.getElementById('sources-list');
-
-        // Tab Buttons
         const tabRecBtn = document.getElementById('tab-recommendation');
         const tabSmsBtn = document.getElementById('tab-sms');
-
-        // --- THEME TOGGLE LOGIC ---
         const themeToggle = document.getElementById('theme-toggle');
         const sunIcon = document.getElementById('sun-icon');
         const moonIcon = document.getElementById('moon-icon');
 
-        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            document.documentElement.classList.add('dark');
-            moonIcon.classList.remove('hidden');
-        } else {
-            document.documentElement.classList.remove('dark');
-            sunIcon.classList.remove('hidden');
+        // --- THEME ---
+        const setDark = (isDark) => {
+            document.documentElement.classList.toggle('dark', isDark);
+            sunIcon.classList.toggle('hidden', isDark);
+            moonIcon.classList.toggle('hidden', !isDark);
+            localStorage.theme = isDark ? 'dark' : 'light';
+        };
+        const initialDark = localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        setDark(initialDark);
+        themeToggle.onclick = () => setDark(!document.documentElement.classList.contains('dark'));
+
+        // --- TABS ---
+        function switchTab(tab) {
+            contentRecommendation.classList.toggle('hidden', tab !== 'recommendation');
+            contentSms.classList.toggle('hidden', tab !== 'sms');
+            tabRecBtn.className = tab === 'recommendation' ? "tab-active whitespace-nowrap py-6 px-1 border-b-2 text-[12px] tracking-wider transition-all uppercase" : "border-transparent text-slate-400 dark:text-gray-500 hover:text-slate-600 dark:hover:text-gray-300 whitespace-nowrap py-6 px-1 border-b-2 font-semibold text-[12px] tracking-wider transition-all uppercase";
+            tabSmsBtn.className = tab === 'sms' ? "tab-active whitespace-nowrap py-6 px-1 border-b-2 text-[12px] tracking-wider transition-all uppercase" : "border-transparent text-slate-400 dark:text-gray-500 hover:text-slate-600 dark:hover:text-gray-300 whitespace-nowrap py-6 px-1 border-b-2 font-semibold text-[12px] tracking-wider transition-all uppercase";
         }
-
-        function toggleTheme() {
-            if (document.documentElement.classList.contains('dark')) {
-                document.documentElement.classList.remove('dark');
-                localStorage.theme = 'light';
-                moonIcon.classList.add('hidden');
-                sunIcon.classList.remove('hidden');
-            } else {
-                document.documentElement.classList.add('dark');
-                localStorage.theme = 'dark';
-                sunIcon.classList.add('hidden');
-                moonIcon.classList.remove('hidden');
-            }
-        }
-        themeToggle.addEventListener('click', toggleTheme);
-
-        // --- TAB LOGIC ---
-        function switchTab(tabName) {
-            if (tabName === 'recommendation') {
-                contentRecommendation.classList.remove('hidden');
-                contentSms.classList.add('hidden');
-                
-                // Update Button Styles
-                tabRecBtn.classList.add('border-tempo-indigo', 'text-tempo-indigo', 'dark:text-white', 'dark:border-white');
-                tabRecBtn.classList.remove('border-transparent', 'text-gray-500', 'dark:text-gray-400');
-                
-                tabSmsBtn.classList.remove('border-tempo-indigo', 'text-tempo-indigo', 'dark:text-white', 'dark:border-white');
-                tabSmsBtn.classList.add('border-transparent', 'text-gray-500', 'dark:text-gray-400');
-            } else {
-                contentRecommendation.classList.add('hidden');
-                contentSms.classList.remove('hidden');
-
-                // Update Button Styles
-                tabSmsBtn.classList.add('border-tempo-indigo', 'text-tempo-indigo', 'dark:text-white', 'dark:border-white');
-                tabSmsBtn.classList.remove('border-transparent', 'text-gray-500', 'dark:text-gray-400');
-                
-                tabRecBtn.classList.remove('border-tempo-indigo', 'text-tempo-indigo', 'dark:text-white', 'dark:border-white');
-                tabRecBtn.classList.add('border-transparent', 'text-gray-500', 'dark:text-gray-400');
-            }
-        }
-        tabRecBtn.addEventListener('click', () => switchTab('recommendation'));
-        tabSmsBtn.addEventListener('click', () => switchTab('sms'));
-
+        tabRecBtn.onclick = () => switchTab('recommendation');
+        tabSmsBtn.onclick = () => switchTab('sms');
 
         // --- KNOWLEDGE BASE ---
         const knowledgeBase = {
-            links: {
+            referenceLinks: {
                 "Get Strong": "https://tempofit.atlassian.net/wiki/spaces/CS/pages/1385693249/Get+Strong",
                 "Improve Definition": "https://tempofit.atlassian.net/wiki/spaces/CS/pages/1387855920/Improve+definition",
-                "Lose Weight & Healthier": "https://tempofit.atlassian.net/wiki/spaces/CS/pages/1387397155/Lose+Weight+and+Getting+Healthier",
+                "Lose Weight": "https://tempofit.atlassian.net/wiki/spaces/CS/pages/1387397155/Lose+Weight+and+Getting+Healthier",
                 "Fitness Tips": "https://tempofit.atlassian.net/wiki/spaces/CS/pages/1388281898/Fitness+Tips",
                 "General Inquiries": "https://tempofit.atlassian.net/wiki/spaces/CS/pages/1385955438/General+Fitness+Inquiries",
                 "Pre/Post-Natal": "https://tempofit.atlassian.net/wiki/spaces/CS/pages/1386086563/Pre+Post-Natal+Inquiry",
                 "Nutrition": "https://tempofit.atlassian.net/wiki/spaces/CS/pages/1386217627/Nutrition+Inquiries",
                 "Injuries": "https://tempofit.atlassian.net/wiki/spaces/CS/pages/1387397209/Injuries+Inquiries",
-                "Definitions": "https://tempofit.atlassian.net/wiki/spaces/CS/pages/1523515415/Fitness+Definitions",
-                "Blog Articles": "https://tempofit.atlassian.net/wiki/spaces/CS/pages/1523712265/Tempo+Fitness+Blog+Articles",
                 "Calorie FAQ": "https://tempofit.atlassian.net/wiki/spaces/CS/pages/130875393/FAQ+Calorie+Estimations+and+Heart+Rate+Training",
                 "Fitness FAQ": "https://tempofit.atlassian.net/wiki/spaces/CS/pages/294917/Fitness+FAQ",
-                "Bundle FAQ": "https://tempofit.atlassian.net/wiki/spaces/CS/pages/345342059/Bundle+Content+FAQ",
-                "Workout Types": "https://tempofit.atlassian.net/wiki/spaces/CS/pages/89260033/Tempo+Workout+Types+Guide",
-                "Live Programs": "https://tempofit.atlassian.net/wiki/spaces/CS/pages/1141833768/Live+Guided+Programs",
                 "Tempo Blog": "https://tempo.fit/blog"
-            },
-            sops: `
-# COMPREHENSIVE SOP DATA
-
-**Logic Instruction:** When generating plans, always reference the specific SOP URL from the links list.
-
-**1. GET STRONG**
-- Goals: Strength without bulk (Low reps, high weight) vs. Hypertrophy (Mod reps, mod weight).
-- Diet: Maintenance vs Surplus.
-- Programs: "Upper Body Strength" (Jonathan), "Strength Fundamentals", "Shape Shift".
-
-**2. IMPROVE DEFINITION**
-- Goal: Fat loss + Muscle maintenance.
-- Logic: Calorie deficit (~500/day).
-- Programs: "Sculpt & Shred", "Boxing Skills", "Shape Shift".
-
-**3. LOSE WEIGHT & HEALTH**
-- Goal: Cardiovascular fitness (Zones 3-5).
-- Programs: "Metabolic Meltdown", "Max Intensity", "Boxing Camp", "Off-Season Athlete".
-- Quick: "10m Habit", "Commit to Health".
-
-**4. RECOVERY & FLEXIBILITY (MIX & MATCH KEY)**
-- Often combined with high intensity.
-- Programs: "Stretch, Meditate & Recover", "Yoga Reset", "Functional Fitness".
-- Logic: If client wants "Weight Loss" + "Breathing", pair "Metabolic Meltdown" with "10 Day Yoga Reset".
-
-**5. INJURIES (CRITICAL)**
-- Always refer to doctor.
-- Mods: "Intro" classes, "Mobility".
-- Wrist: "Build & Burn" (less wrist heavy).
-- Knee: Avoid lunges/squats if painful.
-
-**6. BLOG CONTENT**
-- Always assume the user wants tips from the Tempo Blog (https://tempo.fit/blog) regarding their specific goal (e.g., "Nutrition for muscle gain", "Sleep for recovery").
-`,
-            programs: [
-                 { name: "Foundations of Growth", goal: "Gain Strength", coach: "Alex", level: "Intermediate", description: "Perfect your form, increase your heart rate, and grow your muscles." },
-                 { name: "Complete Core", goal: "Gain Strength", coach: "Bryan", level: "Intermediate", description: "Sculpt a more powerful core to unlock your inner athlete." },
-                 { name: "Build & Burn", goal: "Gain Strength", coach: "Alex,Melissa", level: "Beginner", description: "Combine low-impact cardio and strength to help lose weight." },
-                 { name: "Strength & Power", goal: "Lose Weight", coach: "Clarence,Jonathan", level: "Intermediate", description: "Kickstart your metabolism through strength and cardio." },
-                 { name: "Stretch, Meditate, & Recover", goal: "Get Healthier", coach: "Jeremy", level: "Beginner", description: "Maximize your recovery between strength or cardio programs." },
-                 { name: "Journey to Side Crow", goal: "Get Healthier", coach: "Jeremy", level: "Intermediate", description: "A sequence to increase mobility, strength, stability, and focus." },
-                 { name: "Intermediate Yoga: 20 in 20 Pt. 2", goal: "Get Healthier", coach: "Jeremy", level: "Intermediate", description: "Upgrade your shoulder flexibility and spinal rotation in 10 days." },
-                 { name: "Burn & Shred", goal: "Lose Weight", coach: "Alex,Bryan", level: "Intermediate", description: "Increase strength, improve endurance, and to move more efficiently." },
-                 { name: "Barre Fight", goal: "Improve Definition", coach: "Colby,Melissa", level: "Intermediate,Advanced", description: "Kick, punch, pulse, and shake your way to a stronger you." },
-                 { name: "HeartCore", goal: "Improve Definition", coach: "Bryan,Melissa", level: "Intermediate", description: "Define your strongest and most athletic core yet." },
-                 { name: "Functional Interval Training", goal: "Improve Definition", coach: "Guest Coach", level: "Intermediate", description: "Get FIT with functional strength and HIIT movements." },
-                 { name: "Run Strong", goal: "Gain Strength", coach: "Melissa", level: "Intermediate", description: "Build strength to support your activities off the mat." },
-                 { name: "Sculpt & Shred Remastered Pt. 1", goal: "Improve Definition", coach: "Colby", level: "Intermediate", description: "Sculpt muscles and shred body fat to build overall athleticism." },
-                 { name: "Bigger, Faster, Stronger", goal: "Gain Strength", coach: "Jonathan", level: "Intermediate", description: "Lift heavy to build size and strength." },
-                 { name: "Meditation Challenge: Fully Alive", goal: "Get Healthier", coach: "Jeremy", level: "Intermediate", description: "Ignite your presence, appreciation, and positive mood in 14 days!" },
-                 { name: "Beginner Boxing and Core", goal: "Lose Weight", coach: "Colby", level: "Beginner", description: "Low impact program to improve strength, balance, and coordination." },
-                 { name: "Commit to Your Health", goal: "Get Healthier", coach: "Clarence,Melissa,Jeremy", level: "Intermediate", description: "Build a movement habit in only 22 minutes a day." },
-                 { name: "Max Intensity", goal: "Lose Weight", coach: "Melissa", level: "Advanced", description: "Rev your metabolism and build overall athleticism." },
-                 { name: "Metabolic Meltdown", goal: "Improve Definition,Lose Weight", coach: "Melissa", level: "Intermediate", description: "Boost your metabolism and build strength, even when you're busy." },
-                 { name: "2 Weeks to a Healthier Me", goal: "Lose Weight,Get Healthier", coach: "Clarence", level: "Beginner", description: "Low impact cardio, core, and strength training fundamentals." },
-                 { name: "2 Week Burn Fat with Kettlebell HIIT", goal: "Lose Weight", coach: "Melissa", level: "Intermediate", description: "A high-intensity fat-burning kettlebell program." },
-                 { name: "10 Day Yoga Reset", goal: "Get Healthier", coach: "Jeremy", level: "Beginner", description: "Reset the nervous system to master stress & sleep." },
-                 { name: "4 Week Get Defined: Shape Shift 2", goal: "Improve Definition,Gain Strength", coach: "Melissa", level: "Advanced", description: "For advanced athletes to build more muscle definition." },
-                 { name: "5 Day Flexibility", goal: "Get Healthier", coach: "Jeremy", level: "Beginner", description: "Improve your flexibility to reach your goals faster and safer." },
-                 { name: "Weight Loss Jumpstart Pt. 1", goal: "Lose Weight", coach: "Cole", level: "Beginner", description: "Jumpstart your metabolism and re-establish your fitness goals." },
-                 { name: "Functional Fitness", goal: "Improve Definition", coach: "Bryan,Natalia", level: "Intermediate,Advanced", description: "Take the next step in your evolution as an athlete." },
-                 { name: "Bodyweight Foundation", goal: "Get Healthier", coach: "Melissa", level: "Beginner", description: "Start your fitness journey with bodyweight movement fundamentals." },
-                 { name: "Create a Habit in 10m a Day", goal: "Get Healthier", coach: "Clarence", level: "Beginner", description: "Create a healthy habit in just 10 min a day for 10 days." },
-                 { name: "5 Week C Squared", goal: "Lose Weight,Get Healthier", coach: "Cole,Colby", level: "Intermediate", description: "Torch calories while improving your cardiovascular and muscular strength." },
-                 { name: "Boxing Camp", goal: "Get Healthier,Lose Weight", coach: "Colby", level: "Intermediate", description: "Torch calories with these boxing-inspired workouts." },
-                 { name: "Off-season Athlete", goal: "Improve Definition", coach: "Melissa,Bryan", level: "Advanced", description: "Work on strength, speed, agility, and more to win next season." },
-                 { name: "Sculpt & Shred", goal: "Lose Weight,Get Healthier", coach: "Colby", level: "Advanced", description: "Sculpt your muscles and shred body fat with full body workouts." }
-            ]
+            }
         };
 
-        generateBtn.addEventListener('click', generateRecommendation);
+        const systemPrompt = `
+You are the "Tempo Expert Orchestrator". 
+Mission: Create advanced hybrid training schedules for Tempo members that agents can use.
 
-        async function generateRecommendation() {
+LOGIC RULES:
+1. **Hybrid Planning**: Mix and match programs to meet all member needs (e.g. if weight loss + breathing, pair a HIIT program with a mobility/recovery program).
+2. **Structuring**: Use Markdown headings (## and ###) to organize the plan. Make it clean and easy for an agent to read.
+3. **Hyperlinks**: You MUST hyperlink every mention of a Tempo SOP or category to its corresponding URL in the knowledge base.
+4. **Coach Melissa Voice**: In the SMS section, provide natural snippets. Be warm, avoid sounding like a bot.
+
+FORMAT:
+## Strategy Overview
+[1-2 sentences on the client's mix of goals]
+
+## Recommendation Summary
+[The specific programs selected + Why the mix works]
+
+## Weekly Training Schedule
+[A structured Mon-Sun plan]
+
+## Expert Tips & SOP Logic
+[Reference specific SOP logic - e.g. hypertrophy rep ranges or medical clearance warnings]
+
+---SMS_SECTION---
+[3 snippets from Coach Melissa]
+`;
+
+        generateBtn.onclick = async () => {
             setLoading(true);
-            
-            const goals = goalsInput.value;
-            const preferences = preferencesInput.value;
-            const symptoms = symptomsInput.value;
-
-            // Construct the System Prompt
-            const systemPrompt = `
-You are "Tempo Expert", a highly specialized fitness consultant.
-Your role is twofold: 
-1. Provide a comprehensive, SOP-compliant fitness plan.
-2. Draft "Coach Melissa" style SMS snippets for the agent to send to the client.
-
-*** YOUR KNOWLEDGE BASE ***
-${JSON.stringify(knowledgeBase)}
-***************************
-
-**CORE INSTRUCTIONS:**
-
-1.  **Holistic "Mix & Match" Logic:**
-    * Do NOT just pick one program. Analyze *all* user inputs.
-    * If user wants "Weight Loss" + "Breathing", recommend a High-Intensity program (e.g., Metabolic Meltdown) AND a Recovery program (e.g., 10 Day Yoga Reset).
-    * Explain *how* to combine them (e.g., "Do Metabolic Meltdown Mon/Wed/Fri and Yoga Reset Tue/Thu").
-
-2.  **Deep Research & Links:**
-    * You MUST include specific links from the 'links' object in your output. E.g., "See our [Get Strong SOP](url) for details."
-    * Use the Google Search tool to find relevant tips from \`site:tempo.fit/blog\`. Incorporate 1-2 blog tips (e.g., nutrition, sleep).
-
-3.  **Output Format (CRITICAL):**
-    * You must output the Main Recommendation first.
-    * Then, output a specific separator string: \`---SMS_SECTION---\`
-    * Then, output the SMS Snippets.
-
-**PART 1: RECOMMENDATION (Before Separator)**
-* **Customer Profile:** Summary of goals/symptoms.
-* **SOP/Injury Check:** Reference specific SOP link (e.g., Injuries Inquiries) if needed.
-* **The Plan:** Primary Program + Secondary/Supportive Content (Mix & Match).
-* **Why:** specific fitness logic.
-* **Blog Tip:** One insight from tempo.fit/blog.
-* **Reference Links:** List relevant SOP URLs used.
-
-**PART 2: SMS SNIPPETS (After Separator)**
-* **Persona:** "Coach Melissa". Friendly, encouraging, human, concise. NOT robotic.
-* **Drafting:** Provide 3 distinct options/snippets the agent can copy-paste.
-    * *Option 1 (Direct):* "Hey! Coach Melissa here. Based on your goal to [X], I strongly recommend..."
-    * *Option 2 (Encouraging):* "I love that you're focusing on [X]! To get there safely, try starting with..."
-    * *Option 3 (The Mix):* "To hit both [Goal A] and [Goal B], try mixing [Program 1] with [Program 2]..."
-
-`;
-
-            const userQuery = `
-Client Information:
-- **Goals:** ${goals || 'Not provided'}
-- **Preferences/Lifestyle:** ${preferences || 'Not provided'}
-- **Symptoms/Limitations:** ${symptoms || 'None'}
-
-Please generate the Expert Plan and the SMS Snippets. Remember to use the separator ---SMS_SECTION---.
-`;
+            errorMessage.classList.add('hidden');
+            const userQuery = `GOALS: ${goalsInput.value}\nLIFESTYLE: ${preferencesInput.value}\nSYMPTOMS: ${symptomsInput.value}\nCreate Hybrid Plan with structure. Hyperlink SOPs. Separator: ---SMS_SECTION---`;
 
             try {
-                // API Key handling:
-                // 1. For Canvas Preview: Keep this empty (""). The system injects a key automatically.
-                // 2. For GitHub/Deployment: Replace "" with your actual key: "AIzaSyAT8jMbBZHr1lopNMlnhbpDq4NUsoZlmj4"
-                const apiKey = "AIzaSyAT8jMbBZHr1lopNMlnhbpDq4NUsoZlmj4"; 
-                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
-
-                const payload = {
-                    contents: [{ parts: [{ text: userQuery }] }],
-                    systemInstruction: { parts: [{ text: systemPrompt }] },
-                    tools: [{ "google_search": {} }],
-                };
-
-                const response = await retryWithBackoff(() => fetch(apiUrl, {
+                const apiKey = ""; // API Key provided by environment
+                const model = "gemini-2.5-flash-preview-09-2025";
+                const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+                
+                const response = await fetch(url, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                }));
-
-                if (!response.ok) throw new Error(`API Error: ${response.status}`);
-
-                const result = await response.json();
-                const candidate = result.candidates?.[0];
-
-                if (candidate && candidate.content?.parts?.[0]?.text) {
-                    const fullText = candidate.content.parts[0].text;
-                    
-                    // Split content based on separator
-                    const parts = fullText.split('---SMS_SECTION---');
-                    const recommendationContent = parts[0] || "No recommendation generated.";
-                    const smsContent = parts[1] || "No SMS drafts generated.";
-
-                    // Render Recommendation
-                    recommendationText.innerHTML = marked.parse(recommendationContent);
-                    
-                    // Render SMS
-                    smsText.innerHTML = marked.parse(smsContent);
-
-                    // Handle sources
-                    const groundingMetadata = candidate.groundingMetadata;
-                    sourcesList.innerHTML = '';
-                    let hasSources = false;
-                    
-                    if (groundingMetadata?.groundingAttributions) {
-                         const sources = groundingMetadata.groundingAttributions
-                            .map(a => ({ uri: a.web?.uri, title: a.web?.title }))
-                            .filter(s => s.uri && s.title);
-                            
-                        if (sources.length > 0) {
-                            hasSources = true;
-                            sources.forEach(s => {
-                                const li = document.createElement('li');
-                                li.innerHTML = `<a href="${s.uri}" target="_blank" class="hover:text-blue-600 dark:hover:text-blue-400 underline decoration-dotted">${s.title}</a>`;
-                                sourcesList.appendChild(li);
-                            });
-                        }
-                    }
-                    
-                    if (hasSources) sourcesContainer.classList.remove('hidden');
-                    else sourcesContainer.classList.add('hidden');
-
-                    welcomeState.classList.add('hidden');
-                    tabsHeader.classList.remove('hidden');
-                    
-                    // Default to showing recommendation tab
-                    switchTab('recommendation'); 
-                    
-                    errorMessage.classList.add('hidden');
-                } else {
-                    throw new Error("No response generated.");
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: userQuery }] }],
+                        systemInstruction: { parts: [{ text: systemPrompt + JSON.stringify(knowledgeBase) }] },
+                        tools: [{ "google_search": {} }]
+                    })
+                });
+                
+                if (!response.ok) {
+                    const errorBody = await response.json();
+                    throw new Error(errorBody.error?.message || `Error ${response.status}`);
                 }
 
+                const result = await response.json();
+                const text = result.candidates?.[0]?.content?.parts?.[0]?.text;
+                if (!text) throw new Error("No recommendation was generated.");
+
+                const [rec, sms] = text.split('---SMS_SECTION---');
+                recommendationText.innerHTML = marked.parse(rec || "Unable to parse strategy.");
+                smsText.innerHTML = marked.parse(sms || "Unable to parse SMS drafts.");
+
+                welcomeState.classList.add('hidden');
+                tabsHeader.classList.remove('hidden');
+                switchTab('recommendation');
             } catch (error) {
-                console.error(error);
-                errorText.textContent = error.message || "Failed to generate plan.";
+                errorText.textContent = error.message;
                 errorMessage.classList.remove('hidden');
-                contentRecommendation.classList.add('hidden');
-                contentSms.classList.add('hidden');
-                tabsHeader.classList.add('hidden');
-                recommendationText.innerHTML = ""; 
             } finally {
                 setLoading(false);
             }
-        }
+        };
 
         function setLoading(isLoading) {
-            if (isLoading) {
-                generateBtn.disabled = true;
-                btnText.textContent = "Analyzing...";
-                loadingSpinner.classList.remove('hidden');
-                welcomeState.classList.add('hidden');
-                // Hide content while loading
-                contentRecommendation.classList.add('hidden');
-                contentSms.classList.add('hidden');
-                tabsHeader.classList.add('hidden');
-            } else {
-                generateBtn.disabled = false;
-                btnText.textContent = "Generate Plan";
-                loadingSpinner.classList.add('hidden');
-            }
-        }
-
-        async function retryWithBackoff(fn, retries = 3, delay = 1000) {
-            try { return await fn(); }
-            catch (error) {
-                if (retries > 0) {
-                    await new Promise(r => setTimeout(r, delay));
-                    return retryWithBackoff(fn, retries - 1, delay * 2);
-                }
-                throw error;
-            }
+            generateBtn.disabled = isLoading;
+            btnText.textContent = isLoading ? "ANALYZING..." : "GENERATE HYBRID PLAN";
+            loadingSpinner.classList.toggle('hidden', !isLoading);
         }
     </script>
 </body>
