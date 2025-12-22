@@ -173,7 +173,7 @@
                     <button id="tab-recommendation" class="tab-active whitespace-nowrap py-6 px-1 border-b-2 text-[11px] font-bold tracking-wider transition-all uppercase">
                         Master Strategy
                     </button>
-                    <button id="tab-sms" class="border-transparent text-slate-400 dark:text-gray-500 hover:text-slate-600 whitespace-nowrap py-6 px-1 border-b-2 font-bold text-[11px] tracking-wider transition-all uppercase">
+                    <button id="tab-sms" class="border-transparent text-slate-400 dark:text-gray-500 hover:text-slate-600 whitespace-nowrap py-6 px-1 border-b-2 font-semibold text-[11px] tracking-wider transition-all uppercase">
                         Coach Melissa Drafts
                     </button>
                 </nav>
@@ -210,7 +210,7 @@
                 <div id="content-sms" class="hidden">
                     <div class="bg-indigo-50/30 dark:bg-indigo-900/10 border border-indigo-100 dark:border-indigo-900/30 p-8 rounded-3xl mb-12">
                         <p class="text-[10px] font-bold text-tempo-indigo dark:text-tempo-gold uppercase tracking-[0.2em] mb-2">Coach Melissa Identity</p>
-                        <p class="text-xs text-slate-500 dark:text-gray-400 font-medium leading-relaxed italic">Draft snippets are warm and human. All referenced SOPs are hyperlinked for agent verification.</p>
+                        <p class="text-xs text-slate-500 dark:text-gray-400 font-medium leading-relaxed italic">Draft snippets are warm and human. Internal SOPs are never linked here to maintain client-facing professionalism.</p>
                     </div>
                     <div id="smsText" class="prose-custom max-w-none pb-20"></div>
                 </div>
@@ -286,8 +286,10 @@ Mission: Create advanced hybrid training schedules for agents.
 1. **Safety Disclaimer**: You MUST start every response with: "Disclaimer: This fitness plan is for informational purposes only. Consult with a healthcare professional before starting any new exercise program."
 2. **Tempo ONLY**: You are strictly restricted to recommending classes and training plans found in Tempo official documentation. Never suggest general web tips.
 3. **Mandatory Elements**: Every training plan MUST explicitly include a warm-up and a cool-down session for safety.
-4. **SOP Hyperlinking**: You MUST hyperlink every mention of an SOP or reference to its corresponding URL in the knowledge base using Markdown [Name](URL). This is mandatory for the Strategy and SMS sections.
-5. **Coach Melissa Voice**: The SMS section must provide 3 natural snippets that sound human and warm. Hyperlink SOPs here too.
+4. **SOP Hyperlinking**: In the Strategy section, you MUST hyperlink every mention of an SOP or reference to its corresponding URL in the knowledge base using Markdown [Name](URL).
+5. **Coach Melissa Voice (SMS Section)**: 
+   - Provide 3 natural snippets that sound human and warm. 
+   - **CRITICAL**: NEVER hyperlink internal Atlassian SOP URLs in the SMS section. The SMS section is member-facing; internal wiki links will not work for them and look unprofessional. Use plain text for names of programs or goals in SMS.
 
 FORMAT:
 [The Disclaimer]
@@ -297,7 +299,7 @@ FORMAT:
 ## Expert Tips & SOP References
 ---SMS_SECTION---
 ## Snippet 1: The Human Lead-in
-## Snippet 2: The Logic (Hyperlink SOPs)
+## Snippet 2: The Logic (Plain Text Only - NO INTERNAL LINKS)
 ## Snippet 3: The Encouraging Wrap-up
 `;
 
@@ -322,7 +324,7 @@ FORMAT:
             }
 
             setLoading(true);
-            const userQuery = `GOALS: ${goals}\nLIFESTYLE: ${prefs}\nSYMPTOMS: ${symptoms}\nAnalyze and create a hybrid plan. Hyperlink all SOPs. Ensure warm-up and cool-down are included. Separator: ---SMS_SECTION---`;
+            const userQuery = `GOALS: ${goals}\nLIFESTYLE: ${prefs}\nSYMPTOMS: ${symptoms}\nAnalyze and create a hybrid plan. Hyperlink SOPs in the strategy but NO internal links in SMS. Ensure warm-up and cool-down are included. Separator: ---SMS_SECTION---`;
 
             try {
                 const apiKey = "AIzaSyAbWuPoQiq9oBP_6HRxpTPWOfwo-6y3GBE"; 
