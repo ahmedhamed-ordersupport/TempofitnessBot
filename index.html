@@ -40,29 +40,29 @@
             -webkit-font-smoothing: antialiased;
         }
         
-        /* High contrast for light mode - Deep Black for max visibility */
+        /* High contrast for light mode - Deep Black for Nancy's readability review */
         .prose-custom { 
             color: #030712; 
             line-height: 1.7;
         }
         .dark .prose-custom { color: #f3f4f6; }
 
-        /* Structuring Generated Results - Balanced Weights */
+        /* Balanced UI Weights */
         #recommendationText h2, #smsText h2 {
             font-weight: 700;
-            font-size: 1.3rem;
-            margin-top: 1.75rem;
-            margin-bottom: 0.85rem;
+            font-size: 1.25rem;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
             color: #000000;
-            border-bottom: 1px solid #f1f5f9;
+            border-bottom: 1px solid #e2e8f0;
             padding-bottom: 0.5rem;
         }
 
         #recommendationText h3, #smsText h3 {
             font-weight: 600;
-            font-size: 1.05rem;
-            margin-top: 1.5rem;
-            margin-bottom: 0.6rem;
+            font-size: 1rem;
+            margin-top: 1.25rem;
+            margin-bottom: 0.5rem;
             color: #111827;
         }
 
@@ -75,17 +75,16 @@
         }
         .dark #recommendationText strong, .dark #smsText strong { color: #ffffff; }
 
-        /* Hyperlinked SOP Styling */
+        /* SOP Links Styling */
         #recommendationText a, #smsText a {
             color: #485484;
             font-weight: 700;
             text-decoration: underline;
-            text-underline-offset: 4px;
+            text-underline-offset: 3px;
             transition: all 0.2s ease;
         }
         #recommendationText a:hover, #smsText a:hover { color: #10b981; }
         .dark #recommendationText a, .dark #smsText a { color: #c6a777; }
-        .dark #recommendationText a:hover, .dark #smsText a:hover { color: #ffeda0; }
 
         .tab-active {
             border-color: #485484;
@@ -97,7 +96,22 @@
             color: #c6a777;
         }
 
-        /* Responsive UI cleanup */
+        /* Standardized Medical Disclaimer Style */
+        .disclaimer-box {
+            background-color: #fef2f2;
+            border: 1px solid #fecaca;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        .dark .disclaimer-box {
+            background-color: #450a0a;
+            border-color: #991b1b;
+            color: #fecaca;
+        }
+
         ::-webkit-scrollbar { width: 5px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
@@ -126,17 +140,17 @@
             <div class="space-y-8 flex-grow">
                 <div>
                     <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-[0.15em] mb-3">Member Goals</label>
-                    <textarea id="goals" rows="3" class="w-full p-4 text-sm border border-slate-200 dark:border-gray-700 rounded-2xl bg-white dark:bg-gray-800 text-gray-900 dark:text-white outline-none resize-none focus:border-tempo-indigo transition-colors" placeholder="e.g. Weight loss + Power"></textarea>
+                    <textarea id="goals" rows="3" class="w-full p-4 text-sm border-2 border-slate-200 dark:border-gray-700 rounded-2xl bg-white dark:bg-gray-800 text-gray-900 dark:text-white outline-none resize-none focus:border-tempo-indigo transition-colors" placeholder="e.g. Weight loss + Strength"></textarea>
                 </div>
                 
                 <div>
                     <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-[0.15em] mb-3">Lifestyle & Equipment</label>
-                    <textarea id="preferences" rows="3" class="w-full p-4 text-sm border border-slate-200 dark:border-gray-700 rounded-2xl bg-white dark:bg-gray-800 text-gray-900 dark:text-white outline-none resize-none focus:border-tempo-indigo transition-colors" placeholder="e.g. 30 mins max, dumbbells only"></textarea>
+                    <textarea id="preferences" rows="3" class="w-full p-4 text-sm border border-slate-200 dark:border-gray-700 rounded-2xl bg-white dark:bg-gray-800 text-gray-900 dark:text-white outline-none resize-none focus:border-tempo-indigo transition-colors" placeholder="e.g. 20 mins, dumbbells"></textarea>
                 </div>
 
                 <div>
                     <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-[0.15em] mb-3">Symptoms</label>
-                    <textarea id="symptoms" rows="3" class="w-full p-4 text-sm border border-slate-200 dark:border-gray-700 rounded-2xl bg-white dark:bg-gray-800 text-gray-900 dark:text-white outline-none resize-none focus:border-tempo-indigo transition-colors" placeholder="e.g. Wrist pain during planks"></textarea>
+                    <textarea id="symptoms" rows="3" class="w-full p-4 text-sm border border-slate-200 dark:border-gray-700 rounded-2xl bg-white dark:bg-gray-800 text-gray-900 dark:text-white outline-none resize-none focus:border-tempo-indigo transition-colors" placeholder="e.g. Back pain"></textarea>
                 </div>
             </div>
 
@@ -176,15 +190,15 @@
                         </svg>
                     </div>
                     <div class="max-w-xs space-y-2">
-                        <h2 class="text-lg font-bold text-slate-900 dark:text-white uppercase tracking-wider">Master Orchestrator</h2>
-                        <p class="text-sm text-slate-400 font-medium leading-relaxed">Grounded in SOPs and Blog content. Enter member data to generate hybrid training strategies.</p>
+                        <h2 class="text-lg font-bold text-slate-900 dark:text-white uppercase tracking-wider">Expert Consultant</h2>
+                        <p class="text-sm text-slate-400 font-medium leading-relaxed">Safety First. All plans include mandatory warm-ups and cool-downs restricted to Tempo classes.</p>
                     </div>
                 </div>
 
                 <!-- Error Container -->
-                <div id="error-message" class="hidden bg-red-50 dark:bg-red-900/20 border border-red-200 p-6 rounded-2xl mb-8 flex items-start space-x-4 text-red-700 dark:text-red-300">
+                <div id="error-message" class="hidden bg-red-50 dark:bg-red-900/20 border border-red-200 p-6 rounded-2xl mb-8 flex items-start space-x-4 text-red-700 dark:text-red-300 font-medium">
                     <svg class="h-5 w-5 mt-0.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>
-                    <span id="error-text" class="text-xs font-medium leading-relaxed"></span>
+                    <span id="error-text" class="text-xs leading-relaxed"></span>
                 </div>
 
                 <!-- Recommendation Panel -->
@@ -195,8 +209,8 @@
                 <!-- SMS Panel -->
                 <div id="content-sms" class="hidden">
                     <div class="bg-indigo-50/30 dark:bg-indigo-900/10 border border-indigo-100 dark:border-indigo-900/30 p-8 rounded-3xl mb-12">
-                        <p class="text-[10px] font-bold text-tempo-indigo dark:text-tempo-gold uppercase tracking-[0.2em] mb-2">Voice Consistency: Coach Melissa</p>
-                        <p class="text-xs text-slate-500 dark:text-gray-400 font-medium leading-relaxed italic">Draft snippets are warm and personalized. SOPs are hyperlinked for your quick review before sending.</p>
+                        <p class="text-[10px] font-bold text-tempo-indigo dark:text-tempo-gold uppercase tracking-[0.2em] mb-2">Coach Melissa Identity</p>
+                        <p class="text-xs text-slate-500 dark:text-gray-400 font-medium leading-relaxed italic">Draft snippets are warm and human. All referenced SOPs are hyperlinked for agent verification.</p>
                     </div>
                     <div id="smsText" class="prose-custom max-w-none pb-20"></div>
                 </div>
@@ -240,8 +254,8 @@
         function switchTab(tab) {
             contentRecommendation.classList.toggle('hidden', tab !== 'recommendation');
             contentSms.classList.toggle('hidden', tab !== 'sms');
-            tabRecBtn.className = tab === 'recommendation' ? "tab-active whitespace-nowrap py-6 px-1 border-b-2 text-[11px] font-bold tracking-wider transition-all uppercase" : "border-transparent text-slate-400 dark:text-gray-500 hover:text-slate-600 whitespace-nowrap py-6 px-1 border-b-2 font-bold text-[11px] tracking-wider transition-all uppercase";
-            tabSmsBtn.className = tab === 'sms' ? "tab-active whitespace-nowrap py-6 px-1 border-b-2 text-[11px] font-bold tracking-wider transition-all uppercase" : "border-transparent text-slate-400 dark:text-gray-500 hover:text-slate-600 whitespace-nowrap py-6 px-1 border-b-2 font-bold text-[11px] tracking-wider transition-all uppercase";
+            tabRecBtn.className = tab === 'recommendation' ? "tab-active whitespace-nowrap py-6 px-1 border-b-2 text-[11px] font-bold tracking-wider transition-all uppercase" : "border-transparent text-slate-400 dark:text-gray-500 hover:text-slate-600 whitespace-nowrap py-6 px-1 border-b-2 font-semibold text-[11px] tracking-wider transition-all uppercase";
+            tabSmsBtn.className = tab === 'sms' ? "tab-active whitespace-nowrap py-6 px-1 border-b-2 text-[11px] font-bold tracking-wider transition-all uppercase" : "border-transparent text-slate-400 dark:text-gray-500 hover:text-slate-600 whitespace-nowrap py-6 px-1 border-b-2 font-semibold text-[11px] tracking-wider transition-all uppercase";
         }
         tabRecBtn.onclick = () => switchTab('recommendation');
         tabSmsBtn.onclick = () => switchTab('sms');
@@ -265,39 +279,53 @@
         };
 
         const systemPrompt = `
-You are the "Tempo Expert Orchestrator".
+You are the "Tempo Expert Orchestrator". 
 Mission: Create advanced hybrid training schedules for agents.
 
-LOGIC RULES:
-1. **Hybrid Planning**: Mix and match programs to meet all client needs (e.g. Weight Loss program + Yoga/Breathing sessions).
-2. **Hyperlinks**: You MUST hyperlink every mention of an SOP to its corresponding URL in the knowledge base using Markdown [Name](URL). This is mandatory for both the strategy and the SMS snippets.
-3. **Structured Content**: Use H2 and H3 tags. Keep the layout clean for agents.
-4. **Coach Melissa Voice**:
-   - Persona: Human, warm, live coach. Not a bot.
-   - Tone: Conversational, "Hey! Coach Melissa here...", "I noticed your goal to...", "Let's do this!"
-   - Snippets: Provide 3 natural snippets categorized by intent.
+**STRICT COMPLIANCE RULES**:
+1. **Safety Disclaimer**: You MUST start every response with: "Disclaimer: This fitness plan is for informational purposes only. Consult with a healthcare professional before starting any new exercise program."
+2. **Tempo ONLY**: You are strictly restricted to recommending classes and training plans found in Tempo official documentation. Never suggest general web tips.
+3. **Mandatory Elements**: Every training plan MUST explicitly include a warm-up and a cool-down session for safety.
+4. **SOP Hyperlinking**: You MUST hyperlink every mention of an SOP or reference to its corresponding URL in the knowledge base using Markdown [Name](URL). This is mandatory for the Strategy and SMS sections.
+5. **Coach Melissa Voice**: The SMS section must provide 3 natural snippets that sound human and warm. Hyperlink SOPs here too.
 
 FORMAT:
+[The Disclaimer]
 ## Strategy Overview
-## Recommendation Summary
+## Recommendation Summary (Include Warm-up/Cool-down logic)
 ## Weekly Hybrid Schedule
 ## Expert Tips & SOP References
 ---SMS_SECTION---
-## Snippet 1: The Personal Lead-in
-## Snippet 2: The Action Logic (Hyperlink SOPs here too)
+## Snippet 1: The Human Lead-in
+## Snippet 2: The Logic (Hyperlink SOPs)
 ## Snippet 3: The Encouraging Wrap-up
 `;
 
+        function isInputValid(g, p, s) {
+            const combined = (g + p + s).toLowerCase();
+            const consonantsOnly = /^[^aeiouy]+$/i.test(combined.replace(/[^a-z]/g, ''));
+            const tooShort = combined.length < 8;
+            return !(tooShort || consonantsOnly);
+        }
+
         generateBtn.onclick = async () => {
-            setLoading(true);
+            const goals = goalsInput.value.trim();
+            const prefs = preferencesInput.value.trim();
+            const symptoms = symptomsInput.value.trim();
+
             errorMessage.classList.add('hidden');
-            
-            const userQuery = `GOALS: ${goalsInput.value}\nLIFESTYLE: ${preferencesInput.value}\nSYMPTOMS: ${symptomsInput.value}\nAnalyze and create a hybrid plan. You MUST hyperlink all referenced SOPs from the knowledge base using markdown. Separator: ---SMS_SECTION---`;
+
+            if (!isInputValid(goals, prefs, symptoms)) {
+                errorText.textContent = "Please submit sufficient data from the client's case (goals, actual symptoms, and lifestyle) to allow for a professional recommendation.";
+                errorMessage.classList.remove('hidden');
+                return;
+            }
+
+            setLoading(true);
+            const userQuery = `GOALS: ${goals}\nLIFESTYLE: ${prefs}\nSYMPTOMS: ${symptoms}\nAnalyze and create a hybrid plan. Hyperlink all SOPs. Ensure warm-up and cool-down are included. Separator: ---SMS_SECTION---`;
 
             try {
-                // HARD-FIXED API KEY FOR GITHUB DEPLOYMENT
                 const apiKey = "AIzaSyAbWuPoQiq9oBP_6HRxpTPWOfwo-6y3GBE"; 
-                
                 const model = "gemini-2.5-flash-preview-09-2025";
                 const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
                 
@@ -321,8 +349,8 @@ FORMAT:
                 if (!text) throw new Error("No response generated.");
 
                 const [rec, sms] = text.split('---SMS_SECTION---');
-                recommendationText.innerHTML = marked.parse(rec || "Strategy parsing failed.");
-                smsText.innerHTML = marked.parse(sms || "SMS draft parsing failed.");
+                recommendationText.innerHTML = marked.parse(rec || "");
+                smsText.innerHTML = marked.parse(sms || "");
 
                 welcomeState.classList.add('hidden');
                 tabsHeader.classList.remove('hidden');
